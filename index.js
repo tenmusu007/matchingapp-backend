@@ -23,16 +23,11 @@ const io = new Server(server, {
 });
 app.use(
 	cookieSession({
-		name: "id",
-		secret: "key",
-		resave: true,
-		saveUninitialized: false,
-		proxy: true,	
-		cookie: {
-			maxAge: 10000 * 60 * 60,
-			// secure: false,
-			sameSite: "strict",
-		},
+		secret: "id",
+		sameSite: "none",
+		secure: true,
+		httpOnly: true,
+		maxAge: 10000 * 60 * 60,
 	})
 );
 
