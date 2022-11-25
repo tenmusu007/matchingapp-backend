@@ -9,7 +9,7 @@ const port = 8000;
 const http = require("http");
 app.use(
 	cors({
-		origin: "*",
+		origin: "http://localhost:3000/",
 		credentials: true,
 	})
 );
