@@ -7,12 +7,12 @@ app.use(express.urlencoded({ extended: true }));
 require("dotenv").config();
 const port = 8000;
 const http = require("http");
-// app.use(
-// 	cors({
-// 		origin: "http://localhost:3000",
-// 		credentials: true,
-// 	})
-// );
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		credentials: true,
+	})
+);
 app.use(
 	cookieSession({
 		name: "session",
