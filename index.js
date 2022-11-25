@@ -27,6 +27,7 @@ app.use(
 		secret: "key",
 		resave: true,
 		saveUninitialized: false,
+		proxy: true,	
 		cookie: {
 			maxAge: 10000 * 60 * 60,
 			// secure: false,
