@@ -20,26 +20,8 @@ app.use(
 		maxAge: 10000 * 60 * 60,
 	})
 );
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server, {
-	cors: {
-		origin: "http://localhost:3000",
-		methods: ["GET", "POST", "DELETE"],
-	},
-});
 
-io.on("connection", async (socket) => {
-	socket.on("join_room", (roomId) => {
-		socket.join(roomId);
-		io.to(roomId).emit("joined_room", roomId);
-	});
-	socket.on("send_msg", (data) => {
-		console.log("msg", data);
-		io.to(data.roomId).emit("recived_msg", data.data);
-	});
-	socket.on("disconnect", () => {});
-});
+const { Server } = require("socket.io");
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const settingRoute = require("./routes/setting");
@@ -113,6 +95,26 @@ app.post("/deleteimage", async (req, res) => {
 	await s3.send(command);
 	await Pictuers.deleteOne({ path: image.path });
 	res.send("ok");
+});
+
+const server = http.createServer(app);
+const io = new Server(server, {
+	cors: {
+		origin: "http://localhost:3000",
+		methods: ["GET", "POST", "DELETE"],
+	},
+});
+
+io.on("connection", async (socket) => {
+	socket.on("join_room", (roomId) => {
+		socket.join(roomId);
+		io.to(roomId).emit("joined_room", roomId);
+	});
+	socket.on("send_msg", (data) => {
+		console.log("msg", data);
+		io.to(data.roomId).emit("recived_msg", data.data);
+	});
+	socket.on("disconnect", () => {});
 });
 server.listen(process.env.PORT || 8000, () => {
 	console.log(`listening on port ${port}`);
