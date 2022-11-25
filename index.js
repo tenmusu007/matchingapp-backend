@@ -16,9 +16,9 @@ app.use(
 app.use(
 	cookieSession({
 		name: "id",
-		secret: "key",
+		keys: ["key1","key2"],
 		// resave: true,
-		saveUninitialized: false,
+		// saveUninitialized: false,
 		cookie: {
 			maxAge: 10000 * 60 * 60,
 			// secure: false,
