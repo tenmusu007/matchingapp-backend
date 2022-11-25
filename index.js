@@ -17,12 +17,7 @@ app.use(
 	cookieSession({
 		name: "id",
 		keys: ["key1","key2"],
-		// resave: true,
-		// saveUninitialized: false,
-		cookie: {
-			maxAge: 10000 * 60 * 60,
-			// secure: false,
-		},
+		maxAge: 10000 * 60 * 60,
 	})
 );
 const server = http.createServer(app);
