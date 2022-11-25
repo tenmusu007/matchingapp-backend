@@ -17,11 +17,11 @@ app.use(
 	cookieSession({
 		name: "id",
 		secret: "key",
-		resave: true,
+		// resave: true,
 		saveUninitialized: false,
 		cookie: {
 			maxAge: 10000 * 60 * 60,
-			secure: false,
+			// secure: false,
 		},
 	})
 );
