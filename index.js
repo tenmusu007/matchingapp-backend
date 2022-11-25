@@ -119,6 +119,6 @@ app.post("/deleteimage", async (req, res) => {
 	await Pictuers.deleteOne({ path: image.path });
 	res.send("ok");
 });
-server.listen(port, () => {
+server.listen(process.env.PORT|| port, () => {
 	console.log(`listening on port ${port}`);
 });
