@@ -30,13 +30,11 @@ app.use("/", imageRoute);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: ["http://localhost:3000", process.env.FRONT_URL],
+		origin: process.env.FRONT_URL,
 		methods: ["GET", "POST", "DELETE"],
-		credentials :true
+		allowedHeaders: ["my-custom-header"],
+		credentials: true,
 	},
-});
-io.engine.on("headers", (headers, req) => {
-	headers["Access-Control-Allow-Origin"] = process.env.FRONT_URL; 
 });
 
 io.on("connection", async (socket) => {
