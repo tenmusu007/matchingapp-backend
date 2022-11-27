@@ -12,14 +12,6 @@ const interestsRoute = require("./routes/interests");
 const likesRoute = require("./routes/likes");
 const chatRoute = require("./routes/chat");
 const imageRoute = require("./routes/image");
-const multer = require("multer");
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-const crypto = require("crypto");
-const sharp = require("sharp");
-const path = require("path");
-const { S3Client, DeleteBucketCommand } = require("@aws-sdk/client-s3");
-const Images = require("./models/Images");
 require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -38,7 +30,7 @@ app.use("/", imageRoute);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: "http://localhost:3000",
+		origin: "*",
 		methods: ["GET", "POST", "DELETE"],
 	},
 });
@@ -53,17 +45,6 @@ io.on("connection", async (socket) => {
 		io.to(data.roomId).emit("recived_msg", data.data);
 	});
 	socket.on("disconnect", () => {});
-});
-const bucketName = process.env.BUCKET_NAME;
-const bucketRegion = process.env.BUCKET_REGION;
-const accessKey = process.env.ACCESS_KEY;
-const secretAccessKey = process.env.SECRET_ACCESS_KEY;
-const s3 = new S3Client({
-	credentials: {
-		accessKeyId: accessKey,
-		secretAccessKey: secretAccessKey,
-	},
-	region: bucketRegion,
 });
 mongoose
 	.connect(process.env.APP_MONGO_URL)
