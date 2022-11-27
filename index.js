@@ -27,6 +27,7 @@ app.use("/", interestsRoute);
 app.use("/", likesRoute);
 app.use("/", chatRoute);
 app.use("/", imageRoute);
+app.set("trust proxy", 1);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
