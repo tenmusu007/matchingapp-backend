@@ -30,7 +30,7 @@ app.use("/", imageRoute);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: "*",
+		origin: ["http://localhost:3000", process.env.FRONT_URL],
 		methods: ["GET", "POST", "DELETE"],
 	},
 });
