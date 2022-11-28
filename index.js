@@ -15,10 +15,13 @@ const imageRoute = require("./routes/image");
 require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.set("trust proxy", 1);
 app.use(
 	cookieSession({
 		name: "id",
-		keys: ["key1", "key2"]
+		keys: ["key1", "key2"],
+		secure: true,
+		SameSite: "none",
 	})
 );
 // app.set("trust proxy", process.env.FRONT_URL);
