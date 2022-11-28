@@ -22,6 +22,7 @@ app.use(
 		keys: ["key1", "key2"],
 		secure: true,
 		sameSite: "none",
+		httpOnly : false
 	})
 );
 // app.set("trust proxy", process.env.FRONT_URL);
