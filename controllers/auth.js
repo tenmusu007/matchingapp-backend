@@ -66,6 +66,7 @@ const Logout = async (req, res) => {
 const GetUser = async (req, res) => {
 	try {
 		const user = await User.findById(req.body.id);
+		console.log(user);
 		res.status(200).json(user);
 	} catch (err) {
 		res.status(500).json(err);
