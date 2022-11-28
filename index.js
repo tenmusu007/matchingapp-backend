@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
 	cookieSession({
-		name: "session",
+		name: "id",
 		keys: ["key1", "key2"],
 	})
 );
