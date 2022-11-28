@@ -29,7 +29,7 @@ app.use(
 		credentials: true,
 	})
 );
-app.use("/api", authRoute);
+app.use("/", authRoute);
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
 app.use("/", likesRoute);
