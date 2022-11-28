@@ -21,31 +21,19 @@ app.use(
 		keys: ["key1", "key2"],
 	})
 );
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header(
-		"Access-Control-Allow-Headers",
-		"Origin, X-Requested, Content-Type, Accept Authorization"
-	);
-	if (req.method === "OPTIONS") {
-		res.header("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE");
-		return res.status(200).json({});
-	}
-	next();
-});
+app.use(
+	cors({
+		origin: "https://matchingapp.onrender.com",
+		methods: ["GET", "POST", "DELETE"],
+		credentials: true,
+	})
+);
 app.use("/", authRoute);
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
 app.use("/", likesRoute);
 app.use("/", chatRoute);
 app.use("/", imageRoute);
-// app.use(
-// 	cors ({
-// 		origin: process.env.FRONT_URL,
-// 		methods: ["GET", "POST", "DELETE"],
-// 		credentials :true
-// 	})
-// )
 app.set("trust proxy", 1);
 const server = http.createServer(app);
 const io = new Server(server, {
