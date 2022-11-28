@@ -17,7 +17,7 @@ const s3 = new S3Client({
 const getImageForProfile = async (req, res) => {
 	try {
 		const image = await Images.findOne({
-			user_id: req.session.id,
+			user_id: req.body.id,
 		});
 		if (image === null) return res.status(200).json("nothing");
 		const url = await getImageFromS3(image.path);
