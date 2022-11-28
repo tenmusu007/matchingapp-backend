@@ -28,7 +28,7 @@ app.use(
 // app.set("trust proxy", process.env.FRONT_URL);
 app.use(
 	cors({
-		origin: ["http://localhost:3000"],
+		origin: [process.env.FRONT_URL,"http://localhost:3000"],
 		methods: ["GET", "POST", "DELETE"],
 		credentials: true,
 	})
@@ -42,7 +42,7 @@ app.use("/", imageRoute);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: ["http://localhost:3000"],
+		origin: [process.env.FRONT_URL, "http://localhost:3000"],
 		methods: ["GET", "POST", "DELETE"],
 		allowedHeaders: ["my-custom-header"],
 		credentials: true,
