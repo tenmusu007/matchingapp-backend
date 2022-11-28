@@ -19,24 +19,21 @@ app.use(
 	cookieSession({
 		name: "session",
 		keys: ["key1", "key2"],
-		secure: true,
-		sameSite: "none",
 	})
 );
-app.use(
-	cors({
-		origin: "https://matchingapp.onrender.com",
-		methods: ["GET", "POST", "DELETE"],
-		credentials: true,
-	})
-);
+// app.use(
+// 	cors({
+// 		origin: "https://matchingapp.onrender.com",
+// 		methods: ["GET", "POST", "DELETE"],
+// 		credentials: true,
+// 	})
+// );
 app.use("/", authRoute);
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
 app.use("/", likesRoute);
 app.use("/", chatRoute);
 app.use("/", imageRoute);
-// app.set("trust proxy", 1);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
