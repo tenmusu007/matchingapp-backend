@@ -21,13 +21,13 @@ app.use(
 		keys: ["key1", "key2"],
 	})
 );
-// app.use(
-// 	cors({
-// 		origin: "https://matchingapp.onrender.com",
-// 		methods: ["GET", "POST", "DELETE"],
-// 		credentials: true,
-// 	})
-// );
+app.use(
+	cors({
+		origin: process.env.FRONT_URL,
+		methods: ["GET", "POST", "DELETE"],
+		credentials: true,
+	})
+);
 app.use("/", authRoute);
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
