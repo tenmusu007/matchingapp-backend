@@ -33,7 +33,7 @@ app.use(
 		credentials: true,
 	})
 );
-app.use("/", authRoute);
+app.use("/auth", authRoute);
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
 app.use("/", likesRoute);
