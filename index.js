@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const port = 8000;
-const cookieSession = require("cookie-session");
+// const cookieSession = require("cookie-session");
+const ExpressSession = require("express-session");
 const cors = require("cors");
 const { Server } = require("socket.io");
 const http = require("http");
@@ -17,12 +18,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("trust proxy", 1);
 app.use(
-	cookieSession({
-		name: "id",
-		keys: ["key1", "key2"],
-		secure: true,
-		sameSite: "none",
-		httpOnly : false
+	ExpressSession({
+		keys: "key1",
+		secret :'mooncore',
+		resave: false,
+		saveUninitialized: true,
+		cookie: {
+			httpOnly: false, // default
+			maxAge: 10000 * 60 * 60,
+			sameSite: "none"
+		},
 	})
 );
 // app.set("trust proxy", process.env.FRONT_URL);
