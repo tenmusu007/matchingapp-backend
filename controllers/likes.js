@@ -82,6 +82,7 @@ const checkLike = async (req, res) => {
 	}
 };
 const getUsers = async (req, res) => {
+	console.log("session", req.session.id);
 	try {
 		const currentUser = await User.findById(req.session.id);
 		const List = await User.find();
