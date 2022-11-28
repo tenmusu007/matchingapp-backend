@@ -18,10 +18,10 @@ app.use(express.json());
 app.use(
 	cookieSession({
 		name: "id",
-		keys: ["key1", "key2"],
-		secureProxy: true
+		keys: ["key1", "key2"]
 	})
 );
+app.set("trust proxy", process.env.FRONT_URL);
 app.use(
 	cors({
 		origin: process.env.FRONT_URL,
@@ -29,7 +29,7 @@ app.use(
 		credentials: true,
 	})
 );
-app.use("/", authRoute);
+app.use("/api", authRoute);
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
 app.use("/", likesRoute);
