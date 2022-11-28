@@ -22,26 +22,26 @@ const s3 = new S3Client({
 const sendLike = async (req, res) => {
 	try {
 		const exsitLike = await Like.find({
-			from: req.body.id,
+			from: req.session.id,
 			to: req.body.to,
 		});
 		// if(exsitLike.length > 0)return res.status(406).json("you alredy liked");
 		const newLike = await new Like({
-			from: req.body.id,
+			from: req.session.id,
 			to: req.body.to,
 		});
 
 		const like = await newLike.save();
 		const checkLike = await Like.find({
 			from: req.body.to,
-			to: req.body.id,
+			to: req.session.id,
 		});
 		if (checkLike.length === 0) {
 			return res.status(200).json(like);
 		} else {
 			const userInfo = await User.findById(checkLike[0].from);
 			const newChat = await new Chat({
-				user1: req.body.id,
+				user1: req.session.id,
 				user2: req.body.to,
 			});
 			const createdChat = await newChat.save();
@@ -53,7 +53,7 @@ const sendLike = async (req, res) => {
 };
 const getLike = async (req, res) => {
 	try {
-		const likeList = await Like.find({ to: req.body.id });
+		const likeList = await Like.find({ to: req.session.id });
 		const likedUser = [];
 		for (const item of likeList) {
 			const userSendLike = await User.findById(item.from);
@@ -66,7 +66,7 @@ const getLike = async (req, res) => {
 };
 const checkLike = async (req, res) => {
 	try {
-		const createdChat = await Chat.find({ user2: req.body.id });
+		const createdChat = await Chat.find({ user2: req.session.id });
 		const list = [];
 		if (createdChat.length > 0) {
 			for (const item of createdChat) {
@@ -83,7 +83,7 @@ const checkLike = async (req, res) => {
 };
 const getUsers = async (req, res) => {
 	try {
-		const currentUser = await User.findById(req.body.id);
+		const currentUser = await User.findById(req.session.id);
 		const List = await User.find();
 		for (const element of currentUser.sexual_orientation) {
 			if (element.id === 4) {
@@ -107,13 +107,13 @@ const getUsers = async (req, res) => {
 				}
 			});
 			const delCurrentUser = filterdLike.filter(
-				(item) => item._id.toString() !== req.body.id
+				(item) => item._id.toString() !== req.session.id
 			);
-			const likedList = await Likes.find({ from: req.body.id });
+			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
 			res.status(200).json(userList);
 		} else {
-			const likedList = await Likes.find({ from: req.body.id });
+			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
 			res.status(200).json(userList);
 		}
