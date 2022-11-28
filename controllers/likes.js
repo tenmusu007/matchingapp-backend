@@ -112,10 +112,12 @@ const getUsers = async (req, res) => {
 			);
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
+			console.log("userList", userList);
 			res.status(200).json(userList);
 		} else {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
+			console.log("userList", userList);
 			res.status(200).json(userList);
 		}
 	} catch (err) {

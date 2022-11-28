@@ -35,7 +35,7 @@ const LoginUser = async (req, res) => {
 			return res.status(400).json("password is wrong");
 		} else {
 			req.session.id = user._id.toString();
-			console.log(req.session.id);
+			console.log("set cookie",req.session.id);
 			// res.cookie("id", req.session.id);
 			return res.status(200).json(user);
 		}
@@ -65,7 +65,7 @@ const Logout = async (req, res) => {
 };
 const GetUser = async (req, res) => {
 	try {
-		console.log(req.session.id);
+		console.log("user",req.session.id);
 		const user = await User.findById(req.session.id);
 		res.status(200).json(user);
 	} catch (err) {
