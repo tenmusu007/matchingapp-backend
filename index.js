@@ -19,6 +19,7 @@ app.use(
 	cookieSession({
 		name: "id",
 		keys: ["key1", "key2"],
+		secureProxy: true
 	})
 );
 app.use(
