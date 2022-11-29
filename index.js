@@ -34,11 +34,11 @@ app.use(
 	})
 );
 app.use("/auth", authRoute);
-app.use("/", settingRoute);
-app.use("/", interestsRoute);
-app.use("/", likesRoute);
-app.use("/", chatRoute);
-app.use("/", imageRoute);
+app.use("/setting", settingRoute);
+app.use("/interest", interestsRoute);
+app.use("/like", likesRoute);
+app.use("/chat", chatRoute);
+app.use("/image", imageRoute);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
