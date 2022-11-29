@@ -30,7 +30,7 @@ app.use(
 	cors({
 		origin: [
 			process.env.FRONT_URL,
-			"https://main.d1q845p9ygn1yh.amplifyapp.com",
+			"http://localhost:3000",
 		],
 		methods: ["GET", "POST", "DELETE"],
 		credentials: true,
@@ -47,7 +47,7 @@ const io = new Server(server, {
 	cors: {
 		origin: [
 			process.env.FRONT_URL,
-			"https://main.d1q845p9ygn1yh.amplifyapp.com",
+			"http://localhost:3000",
 		],
 		methods: ["GET", "POST", "DELETE"],
 		allowedHeaders: ["my-custom-header"],
