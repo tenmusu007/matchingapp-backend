@@ -21,7 +21,7 @@ app.use(
 		name: "id",
 		keys: ["key1", "key2"],
 		secure: true,
-		// sameSite: "none",
+		sameSite: "none",
 		// httpOnly : false
 	})
 );
