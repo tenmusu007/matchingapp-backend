@@ -25,6 +25,8 @@ console.log("data", userData);
     const url = await getImageFromS3(image.path);
     const newObj = { ...userData, "image": url }
     console.log("newObj", newObj);
+    userData.image = url
+    console.log("newObj", userData);
 		await urlArray.push(url);
 	} else {
 		await urlArray.push("string");
