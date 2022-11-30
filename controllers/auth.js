@@ -69,7 +69,7 @@ const Logout = async (req, res) => {
 const GetUser = async (req, res) => {
 	try {
 		console.log("user", req.session.id);
-		// if (!req.session.id) return res.status(200).json("nocookie")
+		if (!req.session.id) return res.status(200).json("nocookie")
 		const user = await User.findById(req.session.id);
 		const selectedUser = await selectedUserData({ ...user._doc });
 		res.status(200).json(selectedUser);
