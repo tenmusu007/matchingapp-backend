@@ -69,7 +69,8 @@ const GetUser = async (req, res) => {
 	try {
 		console.log("user",req.session.id);
 		const user = await User.findById(req.session.id);
-    const selectedUser = await selectedUserData({ ...user._doc });
+		const selectedUser = await selectedUserData({ ...user._doc });
+		console.log(selectedUser);
 		res.status(200).json(selectedUser);
 	} catch (err) {
 		res.status(500).json(err);
