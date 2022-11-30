@@ -1,4 +1,5 @@
-const selectedUserData = async(userData) => {
+const selectedUserData = async (userData) => {
+  console.log("helper", userData);
   if (!Array.isArray(userData)) {
 		delete userData.password;
 		delete userData.createdAt;
