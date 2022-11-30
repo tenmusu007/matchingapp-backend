@@ -48,7 +48,7 @@ const cookieCheck = async (req, res) => {
 	try {
 		const loggeinSession = req.session.id;
 		console.log("loggeinSession", loggeinSession);
-
+		if(!loggeinSession) return res.status(200).json(false)
 		return res.status(200).json(true);
 	} catch (err) {
 		res.status(500).json(err);
