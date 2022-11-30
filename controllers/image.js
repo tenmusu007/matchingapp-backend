@@ -36,6 +36,7 @@ const getImageForHome = async (req, res) => {
 			const url = await getImageFromS3(image.path);
 			await urlArray.push(url);
 		}
+		console.log("Arr",urlArray);
 		res.status(200).json(urlArray);
 	} catch (err) {
 		res.status(200).json(err);
