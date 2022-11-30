@@ -19,6 +19,7 @@ const s3 = new S3Client({
 const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const { selectedUserData } = require("../helper/selectedUserData");
 
 const updateInfo = async (req, res) => {
 	try {
@@ -63,7 +64,7 @@ const updateInfo = async (req, res) => {
 			},
 		});
 		const updateUser = await User.findById(update._id);
-		const selectedUser = selectedUserData({ ...updateUser._id });
+		const selectedUser = await selectedUserData({ ...updateUser._id });
 		console.log(selectedUser);
 		res.status(200).json("here",selectedUser);
 	} catch (err) {
