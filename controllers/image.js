@@ -26,21 +26,21 @@ const getImageForProfile = async (req, res) => {
 		res.status(200).json(err);
 	}
 };
-const getImageForHome = async (req, res) => {
+const getImageForChatList = async (req, res) => {
 	try {
 		const urlArray = [];
 		for (const user of req.body.user_id) {
 			const image = await Images.findOne({
 				user_id: user.userInfo._id,
 			});
+			const url = await getImageFromS3(image.path);
 			if (url) {
-				const url = await getImageFromS3(image.path);
 				await urlArray.push(url);
 			} else {
-				await urlArray.push("string")
+				await urlArray.push("string");
 			}
 		}
-		console.log("Arr",urlArray);
+		console.log("Arr", urlArray);
 		res.status(200).json(urlArray);
 	} catch (err) {
 		res.status(200).json(err);
