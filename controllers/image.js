@@ -33,8 +33,12 @@ const getImageForHome = async (req, res) => {
 			const image = await Images.findOne({
 				user_id: user.userInfo._id,
 			});
-			const url = await getImageFromS3(image.path);
-			await urlArray.push(url);
+			if (url) {
+				const url = await getImageFromS3(image.path);
+				await urlArray.push(url);
+			} else {
+				await urlArray.push("string")
+			}
 		}
 		console.log("Arr",urlArray);
 		res.status(200).json(urlArray);
