@@ -36,7 +36,7 @@ const LoginUser = async (req, res) => {
 			return res.status(400).json("password is wrong");
 		} else {
 			req.session.id = user._id.toString();
-			console.log("set cookie",req.session.id);
+			console.log("set cookie", req.session.id);
 			// res.cookie("id", req.session.id);
 			return res.status(200).json(user);
 		}
@@ -47,15 +47,11 @@ const LoginUser = async (req, res) => {
 
 const cookieCheck = async (req, res) => {
 	try {
-		// console.log("before if",req.session.id);
-		console.log("before if session",req.session);
 		if (!req.session) {
-			console.log("null");
 			return res.status(200).json(false);
 		}
 		const loggeinSession = req.session.id;
-		console.log("loggeinSession", loggeinSession);
-		if(!loggeinSession) return res.status(200).json(false)
+		if (!loggeinSession) return res.status(200).json(false);
 		return res.status(200).json(true);
 	} catch (err) {
 		res.status(500).json(err);
@@ -65,9 +61,6 @@ const cookieCheck = async (req, res) => {
 const Logout = async (req, res) => {
 	try {
 		req.session = null;
-		// console.log("after clicked logout", req.session.id);
-		console.log("session", req.session);
-		res.cookie("id", null);
 		res.status(200).json("logout");
 	} catch (err) {
 		res.status(500), json(err);
@@ -75,7 +68,7 @@ const Logout = async (req, res) => {
 };
 const GetUser = async (req, res) => {
 	try {
-		console.log("user",req.session.id);
+		console.log("user", req.session.id);
 		const user = await User.findById(req.session.id);
 		const selectedUser = await selectedUserData({ ...user._doc });
 		res.status(200).json(selectedUser);
