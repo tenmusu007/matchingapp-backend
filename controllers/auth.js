@@ -58,6 +58,7 @@ const cookieCheck = async (req, res) => {
 const Logout = async (req, res) => {
 	try {
 		req.session.id = null;
+		console.log(req.session.id);
 		res.status(200).json("logout");
 	} catch (err) {
 		res.status(500), json(err);
