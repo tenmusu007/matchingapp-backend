@@ -67,7 +67,7 @@ const updateInfo = async (req, res) => {
 		console.log("before",updateUser);
 		const selectedUser = await selectedUserData({ ...updateUser._doc });
 		console.log("after",selectedUser);
-		res.status(200).json("here",selectedUser);
+		res.status(200).json(selectedUser);
 	} catch (err) {
 		res.status(500).json(err);
 	}
