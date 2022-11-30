@@ -83,15 +83,12 @@ const checkLike = async (req, res) => {
 	}
 };
 const getUsers = async (req, res) => {
-	console.log("session", req.session.id);
 	try {
 		const currentUser = await User.findById(req.session.id);
 		const List = await User.find();
 		for (const element of currentUser.sexual_orientation) {
 			if (element.id === 4) {
-				console.log("every");
 				const selectedUser = await selectedUserData(List);
-				console.log("after", selectedUser);
 				return res.status(200).json(selectedUser);
 			}
 		}
@@ -115,17 +112,12 @@ const getUsers = async (req, res) => {
 			);
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
-			console.log("userList", userList);
 			const selectedUser = await selectedUserData(userList);
-			console.log("after", selectedUser);
 			res.status(200).json(selectedUser);
 		} else {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
-			console.log("before", userList);
 			const selectedUser = await selectedUserData(userList);
-			console.log("after", selectedUser);
-
 			res.status(200).json(selectedUser);
 		}
 	} catch (err) {
