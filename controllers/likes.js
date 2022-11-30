@@ -92,7 +92,7 @@ const getUsers = async (req, res) => {
 				console.log("every");
 				const selectedUser = await selectedUserData(List);
 				console.log("after", selectedUser);
-				return res.status(200).json(List);
+				return res.status(200).json(selectedUser);
 			}
 		}
 		const whoLike = await List.filter((item) => {
@@ -118,7 +118,7 @@ const getUsers = async (req, res) => {
 			console.log("userList", userList);
 			const selectedUser = await selectedUserData(userList);
 			console.log("after", selectedUser);
-			res.status(200).json(userList);
+			res.status(200).json(selectedUser);
 		} else {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
@@ -126,7 +126,7 @@ const getUsers = async (req, res) => {
 			const selectedUser = await selectedUserData(userList);
 			console.log("after", selectedUser);
 
-			res.status(200).json(userList);
+			res.status(200).json(selectedUser);
 		}
 	} catch (err) {
 		res.status(500).json(err);
