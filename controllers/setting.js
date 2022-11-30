@@ -64,9 +64,7 @@ const updateInfo = async (req, res) => {
 			},
 		});
 		const updateUser = await User.findById(update._id);
-		console.log("before",updateUser);
 		const selectedUser = await selectedUserData({ ...updateUser._doc });
-		console.log("after",selectedUser);
 		res.status(200).json(selectedUser);
 	} catch (err) {
 		res.status(500).json(err);

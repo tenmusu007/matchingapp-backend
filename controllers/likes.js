@@ -6,6 +6,7 @@ const { delAlredyLiked } = require("../helper/delAlreadyLiked");
 const { getImageFromS3 } = require("../helper/getImageFromS3");
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { selectedUserData } = require("../helper/selectedUserData");
 
 const bucketName = process.env.BUCKET_NAME;
 const bucketRegion = process.env.BUCKET_REGION;
@@ -89,6 +90,8 @@ const getUsers = async (req, res) => {
 		for (const element of currentUser.sexual_orientation) {
 			if (element.id === 4) {
 				console.log("every");
+				const selectedUser = await selectedUserData(List);
+				console.log("after", selectedUser);
 				return res.status(200).json(List);
 			}
 		}
@@ -113,11 +116,16 @@ const getUsers = async (req, res) => {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
 			console.log("userList", userList);
+			const selectedUser = await selectedUserData(userList);
+			console.log("after", selectedUser);
 			res.status(200).json(userList);
 		} else {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
-			console.log("userList", userList);
+			console.log("before", userList);
+			const selectedUser = await selectedUserData(userList);
+			console.log("after", selectedUser);
+
 			res.status(200).json(userList);
 		}
 	} catch (err) {
