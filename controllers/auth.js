@@ -66,6 +66,7 @@ const Logout = async (req, res) => {
 		req.session.id = null;
 		console.log("after clicked logout", req.session.id);
 		console.log("session", req.session);
+		res.cookie("id", null);
 		res.status(200).json("logout");
 	} catch (err) {
 		res.status(500), json(err);
