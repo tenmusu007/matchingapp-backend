@@ -16,21 +16,16 @@ const s3 = new S3Client({
 });
 
 const getImageForChatList = async (userData) => {
-	const urlArray = [];
-console.log("data", userData);
 	const image = await Images.findOne({
 		user_id: userData._id.toString(),
 	});
 	if (image) {
     const url = await getImageFromS3(image.path);
-    const newObj = { ...userData, "image": url }
-    console.log("newObj", newObj);
     userData.image = url
     console.log("newObj", userData);
-		await urlArray.push(url);
+    return userData
 	} else {
-		await urlArray.push("string");
+    return userData
 	}
-	console.log("helper Arr", urlArray);
 };
 module.exports = { getImageForChatList };
