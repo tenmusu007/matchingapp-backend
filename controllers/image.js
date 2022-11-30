@@ -57,4 +57,4 @@ const getImageForChat = async (req, res) => {
 		res.status(200).json(err);
 	}
 };
-module.exports = { getImageForProfile, getImageForHome, getImageForChat };
+module.exports = { getImageForProfile, getImageForChatList, getImageForChat };
