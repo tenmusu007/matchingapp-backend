@@ -38,7 +38,7 @@ const LoginUser = async (req, res) => {
 			req.session.id = user._id.toString();
 			console.log("set cookie", req.session.id);
 			// res.cookie("id", req.session.id);
-			return res.status(200).json(user);
+			return res.status(200).json("login");
 		}
 	} catch (err) {
 		res.status(500).json(err);
