@@ -19,6 +19,7 @@ const s3 = new S3Client({
 const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
 const updateInfo = async (req, res) => {
 	try {
 		const update = await JSON.parse(req.body.userInfo);

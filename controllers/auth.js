@@ -1,6 +1,7 @@
 const User = require("../models/Users");
 const bcrypt = require("bcrypt");
 const { getImageFromS3 } = require("../helper/getImageFromS3");
+const { selectedUserData } = require("../helper/selectedUserData");
 
 const CreateUser = async (req, res) => {
 	try {
@@ -68,7 +69,8 @@ const GetUser = async (req, res) => {
 	try {
 		console.log("user",req.session.id);
 		const user = await User.findById(req.session.id);
-		res.status(200).json(user);
+    const selectedUser = await selectedUserData({ ...user._doc });
+		res.status(200).json(selectedUser);
 	} catch (err) {
 		res.status(500).json(err);
 	}
