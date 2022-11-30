@@ -47,8 +47,9 @@ const LoginUser = async (req, res) => {
 
 const cookieCheck = async (req, res) => {
 	try {
-		console.log("before if",req.session.id);
-		if (req.session.id === null) {
+		// console.log("before if",req.session.id);
+		console.log("before if session",req.session);
+		if (!req.session) {
 			console.log("null");
 			return res.status(200).json(false);
 		}
@@ -63,8 +64,8 @@ const cookieCheck = async (req, res) => {
 
 const Logout = async (req, res) => {
 	try {
-		req.session.id = null;
-		console.log("after clicked logout", req.session.id);
+		req.session = null;
+		// console.log("after clicked logout", req.session.id);
 		console.log("session", req.session);
 		res.cookie("id", null);
 		res.status(200).json("logout");
