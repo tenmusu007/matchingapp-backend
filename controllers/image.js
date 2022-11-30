@@ -33,8 +33,8 @@ const getImageForChatList = async (req, res) => {
 			const image = await Images.findOne({
 				user_id: user.userInfo._id,
 			});
+			if (image) {
 			const url = await getImageFromS3(image.path);
-			if (url) {
 				await urlArray.push(url);
 			} else {
 				await urlArray.push("string");
