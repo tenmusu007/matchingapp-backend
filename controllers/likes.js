@@ -78,8 +78,7 @@ const getUsers = async (req, res) => {
 			if (element.id === 4) {
 				const selectedUser = await selectedUserData(List);
 				const addUrl = await getImageForHome(selectedUser);
-				console.log("yes", addUrl);
-				return res.status(200).json(selectedUser);
+				return res.status(200).json(addUrl);
 			}
 		}
 		const whoLike = await List.filter((item) => {
@@ -104,15 +103,13 @@ const getUsers = async (req, res) => {
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
 			const selectedUser = await selectedUserData(userList);
 			const addUrl = await getImageForHome(selectedUser);
-			console.log("yes", addUrl);
-			res.status(200).json(selectedUser);
+			res.status(200).json(addUrl);
 		} else {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
 			const selectedUser = await selectedUserData(userList);
 			const addUrl = await getImageForHome(selectedUser);
-			console.log("yes", addUrl);
-			res.status(200).json(selectedUser);
+			res.status(200).json(addUrl);
 		}
 	} catch (err) {
 		res.status(500).json(err);
