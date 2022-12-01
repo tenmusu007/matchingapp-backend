@@ -13,11 +13,11 @@ const getChatList = async (req, res) => {
 					const userInfo = await User.findById(item.user2.toString());
 					const userInfoWithImage = await getImageForChatList(userInfo)
 					console.log("here",test);
-					userAndRoomInfo.push({ userInfoWithImage, createdChat: item });
+					userAndRoomInfo.push({ userInfo, createdChat: item });
 				} else {
 					const userInfo = await User.findById(item.user1.toString());
-					const userInfoWithImage = await getImageForChatList(userInfo);
-					userAndRoomInfo.push({ userInfoWithImage, createdChat: item });
+					const userInfoWithImage = await getImageForChatList(userInfo)
+					userAndRoomInfo.push({ userInfo, createdChat: item });
 				}
 			}
 			return res.status(200).json(userAndRoomInfo);
