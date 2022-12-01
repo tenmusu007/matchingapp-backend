@@ -53,13 +53,13 @@ const getChat = async (req, res) => {
 				// console.log("info",userInfo);
 				const addUrl = await getImageForChatList(userInfo);
 				console.log(addUrl);
-				res.status(200).json(chatInfo);
+				res.status(200).json({ chatInfo, addUrl });
 			} else {
 				const userInfo = await Users.findById(chatInfo.user2);
 				// console.log("info",userInfo);
-				const addUrl = await getImageForChatList(userInfo);				
+				const addUrl = await getImageForChatList(userInfo);
 				console.log(addUrl);
-				res.status(200).json(chatInfo);
+				res.status(200).json({ chatInfo, addUrl });
 			}
 		} else {
 			res.status(200).json([]);
