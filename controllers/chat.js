@@ -12,12 +12,10 @@ const getChatList = async (req, res) => {
 				if (item.user1 === req.session.id) {
 					const userInfo = await User.findById(item.user2.toString());
 					const userInfoWithImage = await getImageForChatList(userInfo)
-					console.log("here", userInfoWithImage);
 					userAndRoomInfo.push({ userInfo, createdChat: item });
 				} else {
 					const userInfo = await User.findById(item.user1.toString());
 					const userInfoWithImage = await getImageForChatList(userInfo)
-					console.log("here", userInfoWithImage);
 					userAndRoomInfo.push({ userInfo, createdChat: item });
 				}
 			}
