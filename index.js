@@ -31,6 +31,7 @@ app.use(
 		origin: [
 			process.env.FRONT_URL,
 			"http://localhost:3000",
+			"https://chatlist.d1q845p9ygn1yh.amplifyapp.com",
 		],
 		methods: ["GET", "POST", "DELETE"],
 		credentials: true,
@@ -48,6 +49,7 @@ const io = new Server(server, {
 		origin: [
 			process.env.FRONT_URL,
 			"http://localhost:3000",
+			"https://chatlist.d1q845p9ygn1yh.amplifyapp.com",
 		],
 		methods: ["GET", "POST", "DELETE"],
 		allowedHeaders: ["my-custom-header"],
