@@ -48,11 +48,13 @@ const getChat = async (req, res) => {
 		if (chatInfo !== undefined) {
 			if (chatInfo.user1 === req.session.id) {
 				const userInfo = await Users.findById(chatInfo.user1);
+				console.log("info",userInfo);
 				const addUrl = await getImageForHome(userInfo)
 				console.log(addUrl);
 				res.status(200).json(chatInfo);
 			} else {
 				const userInfo = await Users.findById(chatInfo.user2);
+				console.log("info",userInfo);
 				const addUrl = await getImageForHome(userInfo);				
 				console.log(addUrl);
 				res.status(200).json(chatInfo);
