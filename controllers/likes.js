@@ -3,24 +3,11 @@ const User = require("../models/Users");
 const Chat = require("../models/Chat");
 const Likes = require("../models/Likes");
 const { delAlredyLiked } = require("../helper/delAlreadyLiked");
-const { getImageFromS3 } = require("../helper/getImageFromS3");
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { selectedUserData } = require("../helper/selectedUserData");
-const { getImageForHome } = require("../helper/getImageForChatList");
+const { getImageForHome } = require("../helper/addImageUrl");
 
-const bucketName = process.env.BUCKET_NAME;
-const bucketRegion = process.env.BUCKET_REGION;
-const accessKey = process.env.ACCESS_KEY;
-const secretAccessKey = process.env.SECRET_ACCESS_KEY;
-
-const s3 = new S3Client({
-	credentials: {
-		accessKeyId: accessKey,
-		secretAccessKey: secretAccessKey,
-	},
-	region: bucketRegion,
-});
 const sendLike = async (req, res) => {
 	try {
 		const exsitLike = await Like.find({

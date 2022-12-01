@@ -1,4 +1,4 @@
-const { getImageForChatList } = require("../helper/getImageForChatList");
+const { getImageForChatList } = require("../helper/addImageUrl");
 const Chat = require("../models/Chat");
 const User = require("../models/Users");
 const getChatList = async (req, res) => {
