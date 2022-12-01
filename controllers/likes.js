@@ -7,6 +7,7 @@ const { getImageFromS3 } = require("../helper/getImageFromS3");
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { selectedUserData } = require("../helper/selectedUserData");
+const { getImageForHome } = require("../helper/getImageForChatList");
 
 const bucketName = process.env.BUCKET_NAME;
 const bucketRegion = process.env.BUCKET_REGION;
@@ -118,6 +119,8 @@ const getUsers = async (req, res) => {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
 			const selectedUser = await selectedUserData(userList);
+			const addUrl = await getImageForHome(selectedUser);
+			console.log("yes",addUrl);
 			res.status(200).json(selectedUser);
 		}
 	} catch (err) {

@@ -28,4 +28,20 @@ const getImageForChatList = async (userData) => {
     return userData
 	}
 };
-module.exports = { getImageForChatList };
+const getImageForHome = async (userData) => {
+  const getImageForUserList = userData.map(async(item) => {
+    const image = await Images.findOne({
+      user_id: item._id.toString(),
+    });
+    if (image) {
+      const url = await getImageFromS3(image.path);
+      userData.image = url
+      return userData
+    } else {
+      userData.image = "nothing"
+      return userData
+    }
+  })
+  console.log("getImageForUserList",getImageForUserList);
+}
+module.exports = { getImageForChatList, getImageForHome };
