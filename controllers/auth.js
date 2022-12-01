@@ -2,6 +2,7 @@ const User = require("../models/Users");
 const bcrypt = require("bcrypt");
 const { selectedUserData } = require("../helper/selectedUserData");
 const { getImageForHome } = require("../helper/addImageUrl");
+const { getImageForChatList } = require("../helper/addImageUrl");
 
 const CreateUser = async (req, res) => {
 	try {
@@ -72,7 +73,7 @@ const GetUser = async (req, res) => {
 		if (!req.session.id) return res.status(200).json("nocookie")
 		const user = await User.findById(req.session.id);
 		const selectedUser = await selectedUserData({ ...user._doc });
-		const addUrl = await getImageForHome(selectedUser)
+		const addUrl = await getImageForChatList(selectedUser);
 		res.status(200).json(selectedUser);
 	} catch (err) {
 		res.status(500).json(err);
