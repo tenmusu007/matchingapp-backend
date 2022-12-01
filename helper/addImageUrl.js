@@ -17,13 +17,14 @@ const getImageForHome = async (userData) => {
 	for (const item of userData) {
     const image = await Images.findOne({
       user_id: item._id.toString(),
-		});
+    });
+    
 		if (image) {
       const url = await getImageFromS3(image.path);
-			userData.image = url;
+			item.image = url;
 			// return userData;
 		} else {
-      userData.image = "nothing";
+      item.image = "nothing";
 			// return userData;
 		}
   }
