@@ -2,7 +2,7 @@ const { getImageForChatList } = require("../helper/addImageUrl");
 const Chat = require("../models/Chat");
 const Users = require("../models/Users");
 const User = require("../models/Users");
-const { getImageForChatList } = require("../helper/addImageUrl");
+const { getImageForHome } = require("../helper/addImageUrl");
 const getChatList = async (req, res) => {
 	try {
 		const chatList1 = await Chat.find({ user1: req.session.id });
@@ -49,13 +49,13 @@ const getChat = async (req, res) => {
 			if (chatInfo.user1 === req.session.id) {
 				const userInfo = await Users.findById(chatInfo.user1);
 				console.log("info",userInfo);
-				const addUrl = await getImageForChatList(userInfo);
+				const addUrl = await getImageForHome(userInfo)
 				console.log(addUrl);
 				res.status(200).json(chatInfo);
 			} else {
 				const userInfo = await Users.findById(chatInfo.user2);
 				console.log("info",userInfo);
-				const addUrl = await getImageForChatList(userInfo);				
+				const addUrl = await getImageForHome(userInfo);				
 				console.log(addUrl);
 				res.status(200).json(chatInfo);
 			}
