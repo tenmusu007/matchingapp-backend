@@ -83,9 +83,14 @@ const getUsers = async (req, res) => {
 		}
 		const whoLike = await List.filter((item) => {
 			for (const element of currentUser.sexual_orientation) {
-				if (item.gender === element.id) {
-					return item;
+				if (item.gender === element.id ) {
+					for (const userListGender of item.sexual_orientation) {
+						if (userListGender.id === currentUser.gender) {
+							return item;
+						}
 				}
+			}
+					
 			}
 		});
 		if (currentUser.sexual_orientation.length > 1) {
