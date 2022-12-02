@@ -99,7 +99,7 @@ const getUsers = async (req, res) => {
 			const delCurrentUser = filterdLike.filter(
 				(item) => item._id.toString() !== req.session.id
 			);
-			console.log("dele",delCurrentUser);
+			console.log("dele", delCurrentUser);
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
 			const selectedUser = await selectedUserData(userList);
@@ -108,7 +108,10 @@ const getUsers = async (req, res) => {
 		} else {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
-			const selectedUser = await selectedUserData(userList);
+			const delCurrentUser = await userList.filter(
+				(item) => item._id.toString() !== req.session.id
+			);
+			const selectedUser = await selectedUserData(delCurrentUser);
 			const addUrl = await getImageForHome(selectedUser);
 			res.status(200).json(addUrl);
 		}
