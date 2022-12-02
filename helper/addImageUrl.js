@@ -28,7 +28,6 @@ const getImageForHome = async (userData) => {
 			// return userData;
 		}
   }
-	console.log("getImageForUse rList", userData);
 	// return getImageForUserList;
   return userData
 };

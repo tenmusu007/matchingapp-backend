@@ -63,7 +63,6 @@ io.on("connection", async (socket) => {
 		io.to(roomId).emit("joined_room", roomId);
 	});
 	socket.on("send_msg", (data) => {
-		console.log("msg", data);
 		io.to(data.roomId).emit("recived_msg", data.data);
 	});
 	socket.on("disconnect", () => {});

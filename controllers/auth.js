@@ -37,7 +37,6 @@ const LoginUser = async (req, res) => {
 			return res.status(400).json("password is wrong");
 		} else {
 			req.session.id = user._id.toString();
-			console.log("set cookie", req.session.id);
 			// res.cookie("id", req.session.id);
 			return res.status(200).json("login");
 		}

@@ -40,7 +40,6 @@ const getImageForChatList = async (req, res) => {
 				await urlArray.push("string");
 			}
 		}
-		console.log("Arr", urlArray);
 		res.status(200).json(urlArray);
 	} catch (err) {
 		res.status(200).json(err);

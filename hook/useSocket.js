@@ -24,12 +24,6 @@ io.on("connection", async (socket) => {
 			io.to(roomId).emit("recived_msg", data);
 		});
 	});
-	// 	} catch (e) {
-	// 		next(new Error("unknown user"));
-	// 	}
-	// });
-	// const roomId = 1
-	// console.log(socket.rooms);
 
 	socket.on("disconnect", () => {
 		// console.log("disconnect");
