@@ -48,12 +48,9 @@ const LoginUser = async (req, res) => {
 
 const cookieCheck = async (req, res) => {
 	try {
-		if (!req.session) {
-			return res.status(200).json(false);
-		}
 		const loggeinSession = req.session.id;
-		if (!loggeinSession) return res.status(200).json(false);
-		return res.status(200).json(true);
+		if (loggeinSession) return res.status(200).json(true);
+		return res.status(200).json(false);
 	} catch (err) {
 		res.status(500).json(err);
 	}
