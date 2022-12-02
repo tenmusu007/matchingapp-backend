@@ -99,7 +99,6 @@ const getUsers = async (req, res) => {
 			const delCurrentUser = filterdLike.filter(
 				(item) => item._id.toString() !== req.session.id
 			);
-			console.log("dele", delCurrentUser);
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
 			const selectedUser = await selectedUserData(userList);
