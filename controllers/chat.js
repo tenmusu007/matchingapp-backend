@@ -49,11 +49,11 @@ const getChat = async (req, res) => {
 		const chatInfo = await Chat.findById(req.body.room_id);
 		if (chatInfo !== undefined) {
 			if (chatInfo.user1 === req.session.id) {
-				const userInfo = await Users.findById(chatInfo.user1);
+				const userInfo = await Users.findById(chatInfo.user2);
 				const addUrl = await getImageForChatList(userInfo);
 				res.status(200).json({ ...chatInfo._doc, image: addUrl.image });
 			} else {
-				const userInfo = await Users.findById(chatInfo.user2);
+				const userInfo = await Users.findById(chatInfo.user1);
 				const addUrl = await getImageForChatList(userInfo);
 				res.status(200).json({ ...chatInfo._doc, image:addUrl.image });
 			}
