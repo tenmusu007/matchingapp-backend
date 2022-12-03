@@ -68,6 +68,7 @@ const deleteChat = async (req, res) => {
 	console.log(req.body);
 	try {
 		const chatInfo = await Chat.findById(req.body.chatId);
+		console.log(chatInfo);
 		if (req.session.id === chatInfo.user1) {
 			await Like.deleteOne({
 				from: req.session.id,
