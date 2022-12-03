@@ -78,7 +78,6 @@ const deleteChat = async (req, res) => {
 				to: chatInfo.user2,
 				from: req.session.id,
 			});
-			await Chat.deleteOne({ id: req.body.chatId });
 		} else {
 			await Like.deleteOne({
 				from: req.session.id,
@@ -88,7 +87,6 @@ const deleteChat = async (req, res) => {
 				to: chatInfo.user1,
 				from: req.session.id,
 			});
-			await Chat.deleteOne({ id: req.body.chatId });
 		}
 		res.status(200).json("chat deleted");
 	} catch (err) {
