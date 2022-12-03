@@ -15,11 +15,11 @@ const getChatList = async (req, res) => {
 			for (const item of list) {
 				if (item.user1 === req.session.id) {
 					const userInfo = await User.findById(item.user2.toString());
-					const userInfoWithImage = await getImageForChatList(userInfo)
+					const userInfoWithImage = await getImageForChatList(userInfo);
 					userAndRoomInfo.push({ userInfo, createdChat: item });
 				} else {
 					const userInfo = await User.findById(item.user1.toString());
-					const userInfoWithImage = await getImageForChatList(userInfo)
+					const userInfoWithImage = await getImageForChatList(userInfo);
 					userAndRoomInfo.push({ userInfo, createdChat: item });
 				}
 			}
@@ -55,7 +55,7 @@ const getChat = async (req, res) => {
 			} else {
 				const userInfo = await Users.findById(chatInfo.user1);
 				const addUrl = await getImageForChatList(userInfo);
-				res.status(200).json({ ...chatInfo._doc, image:addUrl.image });
+				res.status(200).json({ ...chatInfo._doc, image: addUrl.image });
 			}
 		} else {
 			res.status(200).json([]);
@@ -64,4 +64,33 @@ const getChat = async (req, res) => {
 		res.status(500).json(err);
 	}
 };
-module.exports = { getChatList, saveChat, getChat };
+const deleteChat = async (req, res) => {
+	try {
+		const chatInfo = await Chat.findById(req.body.chatId);
+		if (req.session.id === chatInfo.user1) {
+			await Like.deleteOne({
+				from: req.session.id,
+				to: chatInfo.user2,
+			});
+			await Like.deleteOne({
+				to: chatInfo.user2,
+				from: req.session.id,
+			});
+			await Chat.deleteOne({ id: req.body.chatId });
+		} else {
+			await Like.deleteOne({
+				from: req.session.id,
+				to: chatInfo.user1,
+			});
+			await Like.deleteOne({
+				to: chatInfo.user1,
+				from: req.session.id,
+			});
+			await Chat.deleteOne({ id: req.body.chatId });
+		}
+		res.status(200).json("chat deleted");
+	} catch (err) {
+		res.status(500).json(err)
+	}
+};
+module.exports = { getChatList, saveChat, getChat, deleteChat };
