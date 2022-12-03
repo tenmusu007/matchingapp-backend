@@ -10,6 +10,7 @@ const getImageForChatList = async (userData) => {
 		userData.image = url;
 		return userData;
 	} else {
+		userData.image = "";
 		return userData;
 	}
 };
