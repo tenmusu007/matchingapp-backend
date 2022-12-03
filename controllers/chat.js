@@ -65,6 +65,7 @@ const getChat = async (req, res) => {
 	}
 };
 const deleteChat = async (req, res) => {
+	console.log(req.body);
 	try {
 		const chatInfo = await Chat.findById(req.body.chatId);
 		if (req.session.id === chatInfo.user1) {
