@@ -1,7 +1,7 @@
 const Chat = require("../models/Chat");
 const Users = require("../models/Users");
 const User = require("../models/Users");
-const Like = require("../models/Likes")
+const Like = require("../models/Likes");
 const {
 	getImageForHome,
 	getImageForChatList,
@@ -66,40 +66,32 @@ const getChat = async (req, res) => {
 	}
 };
 const deleteChat = async (req, res) => {
-	console.log(req.body);
 	try {
 		const chatInfo = await Chat.findById(req.body.chatId);
-		// console.log(chatInfo);
-		// console.log(chatInfo.user1 === req.session.id);
-		// console.log(chatInfo.user2 === req.session.id);
-		await Chat.deleteOne({_id :chatInfo._id.toString()})
-		// if (req.session.id === chatInfo.user1) {
-		// 	const test = await Like.deleteOne({
-		// 		from: req.session.id,
-		// 		to: chatInfo.user2,
-		// 	});
-		// 	console.log(test);
-		// 	await Like.deleteOne({
-		// 		to: chatInfo.user2,
-		// 		from: req.session.id,
-		// 	});
-		// } else {
-		// 	const test = await Like.deleteOne({
-		// 		from: req.session.id,
-		// 		to: chatInfo.user1,
-		// 	});
-		// 	console.log(test);
-
-		// 	await Like.deleteOne({
-		// 		to: chatInfo.user1,
-		// 		from: req.session.id,
-		// 	});
-		// 	await Chat.deleteOne({ _id: chatInfo._id.toString() });
-
-		// }
+		await Chat.deleteOne({ _id: chatInfo._id.toString() });
+		if (req.session.id === chatInfo.user1) {
+			await Like.deleteOne({
+				from: req.session.id,
+				to: chatInfo.user2,
+			});
+			await Like.deleteOne({
+				to: chatInfo.user2,
+				from: req.session.id,
+			});
+		} else {
+			await Like.deleteOne({
+				from: req.session.id,
+				to: chatInfo.user1,
+			});
+			await Like.deleteOne({
+				to: chatInfo.user1,
+				from: req.session.id,
+			});
+			await Chat.deleteOne({ _id: chatInfo._id.toString() });
+		}
 		res.status(200).json("chat deleted");
 	} catch (err) {
-		res.status(500).json(err)
+		res.status(500).json(err);
 	}
 };
 module.exports = { getChatList, saveChat, getChat, deleteChat };
