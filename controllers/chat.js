@@ -69,31 +69,34 @@ const deleteChat = async (req, res) => {
 	console.log(req.body);
 	try {
 		const chatInfo = await Chat.findById(req.body.chatId);
-		console.log(chatInfo);
-		console.log(chatInfo.user1 === req.session.id);
-		console.log(chatInfo.user2 === req.session.id);
-		if (req.session.id === chatInfo.user1) {
-			const test = await Like.deleteOne({
-				from: req.session.id,
-				to: chatInfo.user2,
-			});
-			console.log(test);
-			await Like.deleteOne({
-				to: chatInfo.user2,
-				from: req.session.id,
-			});
-		} else {
-			const test = await Like.deleteOne({
-				from: req.session.id,
-				to: chatInfo.user1,
-			});
-			console.log(test);
+		// console.log(chatInfo);
+		// console.log(chatInfo.user1 === req.session.id);
+		// console.log(chatInfo.user2 === req.session.id);
+		await Chat.deleteOne({_id :chatInfo._id.toString()})
+		// if (req.session.id === chatInfo.user1) {
+		// 	const test = await Like.deleteOne({
+		// 		from: req.session.id,
+		// 		to: chatInfo.user2,
+		// 	});
+		// 	console.log(test);
+		// 	await Like.deleteOne({
+		// 		to: chatInfo.user2,
+		// 		from: req.session.id,
+		// 	});
+		// } else {
+		// 	const test = await Like.deleteOne({
+		// 		from: req.session.id,
+		// 		to: chatInfo.user1,
+		// 	});
+		// 	console.log(test);
 
-			await Like.deleteOne({
-				to: chatInfo.user1,
-				from: req.session.id,
-			});
-		}
+		// 	await Like.deleteOne({
+		// 		to: chatInfo.user1,
+		// 		from: req.session.id,
+		// 	});
+		// 	await Chat.deleteOne({ _id: chatInfo._id.toString() });
+
+		// }
 		res.status(200).json("chat deleted");
 	} catch (err) {
 		res.status(500).json(err)
