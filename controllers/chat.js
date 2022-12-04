@@ -87,8 +87,8 @@ const deleteChat = async (req, res) => {
 				to: chatInfo.user1,
 				from: req.session.id,
 			});
-			await Chat.deleteOne({ _id: chatInfo._id.toString() });
 		}
+		await Chat.deleteOne({ _id: chatInfo._id.toString() });
 		res.status(200).json("chat deleted");
 	} catch (err) {
 		res.status(500).json(err);
