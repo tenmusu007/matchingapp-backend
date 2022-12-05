@@ -48,6 +48,7 @@ const saveChat = async (req, res) => {
 const getChat = async (req, res) => {
 	try {
 		const chatInfo = await Chat.findById(req.body.room_id);
+		console.log("chatInfo",chatInfo);
 		if (chatInfo !== undefined) {
 			if (chatInfo.user1 === req.session.id) {
 				const userInfo = await Users.findById(chatInfo.user2);
