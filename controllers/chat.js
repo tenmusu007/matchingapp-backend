@@ -14,11 +14,11 @@ const getChatList = async (req, res) => {
 		const userAndRoomInfo = [];
 		if (list.length > 0) {
 			for (const item of list) {
-				if (item.user1 === req.session.id && item.user2 !==req.session.id) {
+				if (item.user1 === req.session.id) {
 					const userInfo = await User.findById(item.user2.toString());
 					const userInfoWithImage = await getImageForChatList(userInfo);
 					userAndRoomInfo.push({ userInfoWithImage, createdChat: item });
-				} else if (item.user1 !== req.session.id && item.user2 === req.session.id) {
+				} else {
 					const userInfo = await User.findById(item.user1.toString());
 					const userInfoWithImage = await getImageForChatList(userInfo);
 					userAndRoomInfo.push({ userInfoWithImage, createdChat: item });
