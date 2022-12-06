@@ -3,8 +3,6 @@ const User = require("../models/Users");
 const Chat = require("../models/Chat");
 const Likes = require("../models/Likes");
 const { delAlredyLiked } = require("../helper/delAlreadyLiked");
-const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { selectedUserData } = require("../helper/selectedUserData");
 const { getImageForHome } = require("../helper/addImageUrl");
 
@@ -14,7 +12,7 @@ const sendLike = async (req, res) => {
 			from: req.session.id,
 			to: req.body.to,
 		});
-		// if(exsitLike.length > 0)return res.status(406).json("you alredy liked");
+		if(exsitLike.length > 0)return res.status(406).json("you alredy liked");
 		const newLike = await new Like({
 			from: req.session.id,
 			to: req.body.to,
@@ -90,9 +88,10 @@ const getUsers = async (req, res) => {
 						}
 				}
 			}
-					
 			}
 		});
+		console.log("current", currentUser.sexual_orientation);
+		console.log("who",whoLike);
 		if (currentUser.sexual_orientation.length > 1) {
 			const filterdLike = await whoLike.filter((item) => {
 				for (const element of item.sexual_orientation) {
