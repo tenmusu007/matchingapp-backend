@@ -48,18 +48,13 @@ const saveChat = async (req, res) => {
 const getChat = async (req, res) => {
 	try {
 		const chatInfo = await Chat.findById(req.body.room_id);
-		console.log("chatInfo",chatInfo);
 		if (chatInfo !== undefined) {
-			console.log("seesion", req.session.id);
-			console.log("seesion", chatInfo.user1);
 			if (String(chatInfo.user1) === String(req.session.id)) {
 				const userInfo = await Users.findById(chatInfo.user2);
-				console.log("info",userInfo);
 				const addUrl = await getImageForChatList(userInfo);
 				res.status(200).json({ ...chatInfo._doc, image: addUrl.image });
 			} else {
 				const userInfo = await Users.findById(chatInfo.user1);
-				console.log("info",userInfo);
 				const addUrl = await getImageForChatList(userInfo);
 				res.status(200).json({ ...chatInfo._doc, image: addUrl.image });
 			}
@@ -80,8 +75,8 @@ const deleteChat = async (req, res) => {
 				to: chatInfo.user2,
 			});
 			await Like.deleteOne({
-				to: chatInfo.user2,
-				from: req.session.id,
+				from: chatInfo.user2,
+				to: req.session.id,
 			});
 		} else {
 			await Like.deleteOne({
@@ -89,8 +84,8 @@ const deleteChat = async (req, res) => {
 				to: chatInfo.user1,
 			});
 			await Like.deleteOne({
-				to: chatInfo.user1,
-				from: req.session.id,
+				from: chatInfo.user1,
+				to: req.session.id,
 			});
 		}
 		await Chat.deleteOne({ _id: chatInfo._id.toString() });
