@@ -111,10 +111,12 @@ const getUsers = async (req, res) => {
 		} else {
 			const likedList = await Likes.find({ from: req.session.id });
 			const userList = await delAlredyLiked(likedList, whoLike);
+			console.log("userlist",userList);
 			const delCurrentUser = await userList.filter(
 				(item) => item._id.toString() !== req.session.id
 			);
 			const selectedUser = await selectedUserData(delCurrentUser);
+			console.log("selected User", selectedUser);
 			const addUrl = await getImageForHome(selectedUser);
 			res.status(200).json(addUrl);
 		}
