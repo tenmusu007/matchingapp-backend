@@ -1,6 +1,6 @@
 const User = require("../models/Users");
 
-const delAlredyLiked = async (likedList, getUserList) => {
+const delAlredyLiked = async (likedList, getUserList, sexualOrientation) => {
 	const toList = likedList.map((item) => {
 		return item.to;
 	});
@@ -8,6 +8,11 @@ const delAlredyLiked = async (likedList, getUserList) => {
 		return item._id.toString();
 	});
 	const allTogther = [...new Set([...toList, ...userList])];
+	// const filteredByGender = allTogther.filter((item) => {
+	// 	for (const currentUserSexualOrientation of sexualOrientation) {
+	// 		if(item)
+	// 	}
+	// })
 	const romovedUser = allTogther.filter((val) => {
 		return !toList.includes(val) || !userList.includes(val);
 	});
@@ -15,7 +20,7 @@ const delAlredyLiked = async (likedList, getUserList) => {
 	for (const item of romovedUser) {
 		const user = await User.findById(item);
 		delLiked.push(user);
-  }
-  return delLiked;
+	}
+	return delLiked;
 };
 module.exports = { delAlredyLiked };

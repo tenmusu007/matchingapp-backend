@@ -12,7 +12,7 @@ const sendLike = async (req, res) => {
 			from: req.session.id,
 			to: req.body.to,
 		});
-		if(exsitLike.length > 0)return res.status(406).json("you alredy liked");
+		if (exsitLike.length > 0) return res.status(406).json("you alredy liked");
 		const newLike = await new Like({
 			from: req.session.id,
 			to: req.body.to,
@@ -71,6 +71,7 @@ const checkLike = async (req, res) => {
 const getUsers = async (req, res) => {
 	try {
 		const currentUser = await User.findById(req.session.id);
+		const likedList = await Likes.find({ from: req.session.id });
 		const List = await User.find();
 		for (const element of currentUser.sexual_orientation) {
 			if (element.id === 4) {
@@ -81,42 +82,45 @@ const getUsers = async (req, res) => {
 		}
 		const whoLike = await List.filter((item) => {
 			for (const element of currentUser.sexual_orientation) {
-				if (item.gender === element.id ) {
+				if (item.gender === element.id) {
 					for (const userListGender of item.sexual_orientation) {
 						if (userListGender.id === currentUser.gender) {
 							return item;
 						}
+					}
 				}
 			}
-			}
 		});
-		console.log("current", currentUser.sexual_orientation);
-		console.log("who",whoLike);
+		const delCurrentUser = whoLike.filter(
+			(item) => item._id.toString() !== req.session.id
+			);
+			const userList = await delAlredyLiked(likedList, delCurrentUser);
+			console.log("liked user", likedList);
+			console.log("user list", userList);
+
 		if (currentUser.sexual_orientation.length > 1) {
-			const filterdLike = await whoLike.filter((item) => {
+			const filterdLike = await userList.filter((item) => {
 				for (const element of item.sexual_orientation) {
 					if (element.id === currentUser.gender) {
 						return item;
 					}
 				}
 			});
-			const delCurrentUser = filterdLike.filter(
-				(item) => item._id.toString() !== req.session.id
-			);
-			const likedList = await Likes.find({ from: req.session.id });
-			const userList = await delAlredyLiked(likedList, delCurrentUser);
-			const selectedUser = await selectedUserData(userList);
+			// const delCurrentUser = filterdLike.filter(
+			// 	(item) => item._id.toString() !== req.session.id
+			// );
+			const selectedUser = await selectedUserData(filterdLike);
 			const addUrl = await getImageForHome(selectedUser);
 			res.status(200).json(addUrl);
 		} else {
-			const likedList = await Likes.find({ from: req.session.id });
-			const userList = await delAlredyLiked(likedList, whoLike);
-			console.log("userlist",userList);
-			const delCurrentUser = await userList.filter(
-				(item) => item._id.toString() !== req.session.id
-			);
-			const selectedUser = await selectedUserData(delCurrentUser);
-			console.log("selected User", selectedUser);
+			// const likedList = await Likes.find({ from: req.session.id });
+			// const userList = await delAlredyLiked(likedList, whoLike);
+			// console.log("userlist", userList);
+			// const delCurrentUser = userList.filter(
+			// 	(item) => item._id.toString() !== req.session.id
+			// );
+			const selectedUser = await selectedUserData(userList);
+			// console.log("selected User", selectedUser);
 			const addUrl = await getImageForHome(selectedUser);
 			res.status(200).json(addUrl);
 		}
