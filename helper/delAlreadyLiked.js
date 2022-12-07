@@ -19,15 +19,15 @@ const delAlredyLiked = async (likedList, getUserList, sexualOrientation) => {
 		delLiked.push(user);
 	}
 	const filteredByGender = await delLiked.filter((item) => {
-		console.log("item",item);
+		console.log("item", item);
 		for (const currentUserSexualOrientation of sexualOrientation) {
 			if (item.gender === currentUserSexualOrientation.id) {
-				return item
+				return item;
 			}
 		}
-	})
-console.log("result",filteredByGender);
-	// return filteredByGender;
-	return delLiked;
+	});
+	console.log("result", filteredByGender);
+	return filteredByGender;
+	// return delLiked;
 };
 module.exports = { delAlredyLiked };
