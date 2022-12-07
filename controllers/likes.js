@@ -94,7 +94,11 @@ const getUsers = async (req, res) => {
 		const delCurrentUser = whoLike.filter(
 			(item) => item._id.toString() !== req.session.id
 			);
-			const userList = await delAlredyLiked(likedList, delCurrentUser);
+			const userList = await delAlredyLiked(
+				likedList,
+				delCurrentUser,
+				currentUser.sexual_orientation
+			);
 			console.log("liked user", likedList);
 			console.log("user list", userList);
 
