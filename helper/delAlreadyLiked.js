@@ -8,26 +8,21 @@ const delAlredyLiked = async (likedList, getUserList, sexualOrientation) => {
 		return item._id.toString();
 	});
 	const allTogther = [...new Set([...toList, ...userList])];
-	// console.log("togher",allTogther);
 	const romovedUser = allTogther.filter((val) => {
 		return !toList.includes(val) || !userList.includes(val);
 	});
-	// console.log("remove", romovedUser);
 	const delLiked = [];
 	for (const item of romovedUser) {
 		const user = await User.findById(item);
 		delLiked.push(user);
 	}
 	const filteredByGender = await delLiked.filter((item) => {
-		console.log("item", item);
 		for (const currentUserSexualOrientation of sexualOrientation) {
 			if (item.gender === currentUserSexualOrientation.id) {
 				return item;
 			}
 		}
 	});
-	console.log("result", filteredByGender);
 	return filteredByGender;
-	// return delLiked;
 };
 module.exports = { delAlredyLiked };

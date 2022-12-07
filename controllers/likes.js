@@ -24,7 +24,7 @@ const sendLike = async (req, res) => {
 			to: req.session.id,
 		});
 		if (checkLike.length === 0) {
-			return res.status(200).json(like);
+			return res.status(200).json({matched : false});
 		} else {
 			const userInfo = await User.findById(checkLike[0].from);
 			const newChat = await new Chat({
@@ -32,7 +32,7 @@ const sendLike = async (req, res) => {
 				user2: req.body.to,
 			});
 			const createdChat = await newChat.save();
-			res.status(200).json({ userInfo, createdChat });
+			res.status(200).json({ username: userInfo.username, matched :true });
 		}
 	} catch (err) {
 		res.status(500).json(err);
@@ -93,15 +93,12 @@ const getUsers = async (req, res) => {
 		});
 		const delCurrentUser = whoLike.filter(
 			(item) => item._id.toString() !== req.session.id
-			);
-			const userList = await delAlredyLiked(
-				likedList,
-				delCurrentUser,
-				currentUser.sexual_orientation
-			);
-			console.log("liked user", likedList);
-			console.log("user list", userList);
-
+		);
+		const userList = await delAlredyLiked(
+			likedList,
+			delCurrentUser,
+			currentUser.sexual_orientation
+		);
 		if (currentUser.sexual_orientation.length > 1) {
 			const filterdLike = await userList.filter((item) => {
 				for (const element of item.sexual_orientation) {
@@ -110,9 +107,6 @@ const getUsers = async (req, res) => {
 					}
 				}
 			});
-			// const delCurrentUser = filterdLike.filter(
-			// 	(item) => item._id.toString() !== req.session.id
-			// );
 			const selectedUser = await selectedUserData(filterdLike);
 			const addUrl = await getImageForHome(selectedUser);
 			res.status(200).json(addUrl);
@@ -124,7 +118,6 @@ const getUsers = async (req, res) => {
 			// 	(item) => item._id.toString() !== req.session.id
 			// );
 			const selectedUser = await selectedUserData(userList);
-			// console.log("selected User", selectedUser);
 			const addUrl = await getImageForHome(selectedUser);
 			res.status(200).json(addUrl);
 		}
