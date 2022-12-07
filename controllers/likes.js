@@ -24,7 +24,7 @@ const sendLike = async (req, res) => {
 			to: req.session.id,
 		});
 		if (checkLike.length === 0) {
-			return res.status(200).json({matched : false});
+			return res.status(200).json({ matched: false });
 		} else {
 			const userInfo = await User.findById(checkLike[0].from);
 			const newChat = await new Chat({
@@ -32,7 +32,7 @@ const sendLike = async (req, res) => {
 				user2: req.body.to,
 			});
 			const createdChat = await newChat.save();
-			res.status(200).json({ username: userInfo.username, matched :true });
+			res.status(200).json({ username: userInfo.username, matched: true });
 		}
 	} catch (err) {
 		res.status(500).json(err);
@@ -75,7 +75,10 @@ const getUsers = async (req, res) => {
 		const List = await User.find();
 		for (const element of currentUser.sexual_orientation) {
 			if (element.id === 4) {
-				const selectedUser = await selectedUserData(List);
+				const delCurrentUser = List.filter(
+					(item) => item._id.toString() !== req.session.id
+				);
+				const selectedUser = await selectedUserData(delCurrentUser);
 				const addUrl = await getImageForHome(selectedUser);
 				return res.status(200).json(addUrl);
 			}
