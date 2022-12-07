@@ -26,6 +26,7 @@ const delAlredyLiked = async (likedList, getUserList, sexualOrientation) => {
 		}
 	})
 console.log("result",filteredByGender);
-	return filteredByGender;
+	// return filteredByGender;
+	return delLiked;
 };
 module.exports = { delAlredyLiked };
