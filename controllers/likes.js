@@ -105,6 +105,7 @@ const getUsers = async (req, res) => {
 		if (currentUser.sexual_orientation.length > 1) {
 			const filterdLike = await userList.filter((item) => {
 				for (const element of item.sexual_orientation) {
+					if(element.id === 4)return item
 					if (element.id === currentUser.gender) {
 						return item;
 					}
