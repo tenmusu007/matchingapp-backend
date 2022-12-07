@@ -13,9 +13,11 @@ const delAlredyLiked = async (likedList, getUserList, sexualOrientation) => {
 	// 		if(item)
 	// 	}
 	// })
+	console.log("togher",allTogther);
 	const romovedUser = allTogther.filter((val) => {
 		return !toList.includes(val) || !userList.includes(val);
 	});
+	console.log("remove", romovedUser);
 	const delLiked = [];
 	for (const item of romovedUser) {
 		const user = await User.findById(item);
