@@ -87,6 +87,7 @@ const getUsers = async (req, res) => {
 			for (const element of currentUser.sexual_orientation) {
 				if (item.gender === element.id) {
 					for (const userListGender of item.sexual_orientation) {
+						if(userListGender.id === 4)return item
 						if (userListGender.id === currentUser.gender) {
 							return item;
 						}
