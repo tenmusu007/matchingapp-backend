@@ -5,6 +5,7 @@ const getImageForChatList = async (userData) => {
 	const image = await Images.findOne({
 		user_id: userData._id.toString(),
 	});
+	
 	if (image) {
 		const url = await getImageFromS3(image.path);
 		userData.image = url;
