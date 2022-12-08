@@ -25,7 +25,7 @@ const updateInfo = async (req, res) => {
 		const update = await JSON.parse(req.body.userInfo);
 		const checkImage = await Images.findOne({ user_id: update._id });
 		const user = await User.findById(update._id);
-		if (checkImage.path === null) {
+		if (checkImage.path === null && req.file !== undefined) {
 			const hashImageName = await bcrypt
 				.hash(update._id, 12)
 				.then((hashedPassword) => {
@@ -49,7 +49,7 @@ const updateInfo = async (req, res) => {
 				},
 			});
 			await newImage.save();
-		} else {
+		} else if (checkImage.path !== null && req.file !== undefined) {
 			const userImagePath = await Images.findOne({ user_id: update._id });
 			const params = {
 				Bucket: bucketName,
