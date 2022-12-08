@@ -24,7 +24,7 @@ const CreateUser = async (req, res) => {
 		const user = await newUser.save();
 		const newImage = new Images({
 			user_id: user._id.toString(),
-			path: null,
+			path: "",
 		});
 		await newImage.save();
 		const id = await user.id.toString();
