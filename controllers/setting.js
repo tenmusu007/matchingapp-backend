@@ -24,8 +24,8 @@ const updateInfo = async (req, res) => {
 		const checkImage = await Images.findOne({ user_id: update._id });
 		const user = await User.findById(update._id);
 		if (checkImage === null && req.file !== undefined) {
-			const test = await randomImageName(1);
-			const test2 = await randomImageName("1");
+			const test =  randomImageName(1);
+			const test2 = randomImageName("1");
 			console.log("test",test, test2);
 			console.log("id",typeof update._id, update._id);
 			const randomPath = await randomImageName(Number(update._id));
