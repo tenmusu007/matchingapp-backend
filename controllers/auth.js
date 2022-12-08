@@ -22,6 +22,7 @@ const CreateUser = async (req, res) => {
 			password: hashPsw,
 		});
 		const user = await newUser.save();
+		console.log(user._id.toString());
 		const newImage = new Images({
 			user_id: user._id.toString(),
 			path: "",
