@@ -1,4 +1,4 @@
-const User = require("../models/Users");
+
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");

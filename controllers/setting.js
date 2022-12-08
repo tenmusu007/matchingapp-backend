@@ -16,9 +16,6 @@ const s3 = new S3Client({
 	},
 	region: bucketRegion,
 });
-const multer = require("multer");
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 const { selectedUserData } = require("../helper/selectedUserData");
 
 const updateInfo = async (req, res) => {

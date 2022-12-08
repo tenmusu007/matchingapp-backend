@@ -2,10 +2,7 @@ const Chat = require("../models/Chat");
 const Users = require("../models/Users");
 const User = require("../models/Users");
 const Like = require("../models/Likes");
-const {
-	getImageForHome,
-	getImageForChatList,
-} = require("../helper/addImageUrl");
+const { getImageForChatList } = require("../helper/addImageUrl");
 const getChatList = async (req, res) => {
 	try {
 		const chatList1 = await Chat.find({ user1: req.session.id });

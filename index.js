@@ -11,7 +11,6 @@ const settingRoute = require("./routes/setting");
 const interestsRoute = require("./routes/interests");
 const likesRoute = require("./routes/likes");
 const chatRoute = require("./routes/chat");
-const imageRoute = require("./routes/image");
 require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -25,7 +24,6 @@ app.use(
 		// httpOnly : false
 	})
 );
-// app.set("trust proxy", process.env.FRONT_URL);
 app.use(
 	cors({
 		origin: [
@@ -42,7 +40,6 @@ app.use("/setting", settingRoute);
 app.use("/interest", interestsRoute);
 app.use("/like", likesRoute);
 app.use("/chat", chatRoute);
-app.use("/image", imageRoute);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
