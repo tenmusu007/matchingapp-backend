@@ -24,11 +24,11 @@ const CreateUser = async (req, res) => {
 		const user = await newUser.save();
 		console.log("user",user);
 		console.log("id",user._id.toString());
-		// const newImage = new Images({
-		// 	user_id: user._id.toString(),
-		// 	path: "",
-		// });
-		// await newImage.save();
+		const newImage = new Images({
+			user_id: user._id.toString(),
+			path: "none",
+		});
+		await newImage.save();
 		const id = await user.id.toString();
 		res.status(200).json({ ...user._doc });
 	} catch (err) {
