@@ -26,6 +26,7 @@ const CreateUser = async (req, res) => {
 			user_id: user._id.toString(),
 			path: null,
 		});
+		await newImage.save();
 		const id = await user.id.toString();
 		res.status(200).json({ ...user._doc });
 	} catch (err) {
