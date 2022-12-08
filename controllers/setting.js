@@ -24,9 +24,10 @@ const updateInfo = async (req, res) => {
 		const checkImage = await Images.findOne({ user_id: update._id });
 		const user = await User.findById(update._id);
 		if (checkImage === null && req.file !== undefined) {
+			const randomPath = await randomImageName(update._id);
 			const params = {
 				Bucket: bucketName,
-				Key: update._id,
+				Key: randomPath,
 				Body: req.file.buffer,
 				ContentType: req.file.mimetype,
 			};
@@ -34,20 +35,22 @@ const updateInfo = async (req, res) => {
 			await s3.send(command);
 			const newImage = new Images({
 				user_id: update._id,
-				path: update._id,
+				path: randomPath,
 			});
 			const image = await newImage.save();
 		}
 		if (checkImage !== null && req.file !== undefined) {
+			const userImagePath = Images.findOne({ user_id: update._id });
 			const params = {
 				Bucket: bucketName,
-				Key: update._id,
+				Key: userImagePath.path,
 				Body: req.file.buffer,
 				ContentType: req.file.mimetype,
 			};
 			const command = new PutObjectCommand(params);
 			await s3.send(command);
 		}
+		const userImagePath = Images.findOne({ user_id: update._id });
 		await user.updateOne({
 			$set: {
 				username: update.username,
@@ -57,7 +60,7 @@ const updateInfo = async (req, res) => {
 				about: update.about,
 				gender: update.gender,
 				interests: update.interests,
-				image: update._id,
+				image: userImagePath.path,
 			},
 		});
 		const updateUser = await User.findById(update._id);
