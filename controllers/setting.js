@@ -4,6 +4,8 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const crypto = require("crypto");
 const randomImageName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
+const bcrypt = require("bcrypt");
+
 const sharp = require("sharp");
 const bucketName = process.env.BUCKET_NAME;
 const bucketRegion = process.env.BUCKET_REGION;
@@ -24,15 +26,15 @@ const updateInfo = async (req, res) => {
 		const checkImage = await Images.findOne({ user_id: update._id });
 		const user = await User.findById(update._id);
 		if (checkImage === null && req.file !== undefined) {
-			const test =  randomImageName(1);
-			const test2 = randomImageName("1");
-			console.log("test",test, test2);
-			console.log("id",typeof update._id, update._id);
-			const randomPath = await randomImageName(Number(update._id));
-			console.log("rand", randomPath);
+			const hashImageName = await bcrypt
+				.hash(update._id, 12)
+				.then((hashedPassword) => {
+					return hashedPassword;
+				});
+			console.log("path", hashImageName);
 			const params = await {
 				Bucket: bucketName,
-				Key: randomPath,
+				Key: hashImageName,
 				Body: req.file.buffer,
 				ContentType: req.file.mimetype,
 			};
@@ -40,10 +42,10 @@ const updateInfo = async (req, res) => {
 			await s3.send(command);
 			const newImage = new Images({
 				user_id: update._id,
-				path: randomPath,
+				path: hashImageName,
 			});
 			const image = await newImage.save();
-		}else{}
+		}
 		if (checkImage !== null && req.file !== undefined) {
 			const userImagePath = await Images.findOne({ user_id: update._id });
 			const params = {
@@ -56,7 +58,7 @@ const updateInfo = async (req, res) => {
 			await s3.send(command);
 		}
 		const userImagePath = await Images.findOne({ user_id: update._id });
-		console.log("path",userImagePath.path);
+		console.log("path", userImagePath.path);
 		await user.updateOne({
 			$set: {
 				username: update.username,
