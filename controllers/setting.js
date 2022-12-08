@@ -40,7 +40,7 @@ const updateInfo = async (req, res) => {
 			const image = await newImage.save();
 		}
 		if (checkImage !== null && req.file !== undefined) {
-			const userImagePath = Images.findOne({ user_id: update._id });
+			const userImagePath = await Images.findOne({ user_id: update._id });
 			const params = {
 				Bucket: bucketName,
 				Key: userImagePath.path,
@@ -50,7 +50,7 @@ const updateInfo = async (req, res) => {
 			const command = new PutObjectCommand(params);
 			await s3.send(command);
 		}
-		const userImagePath = Images.findOne({ user_id: update._id });
+		const userImagePath = await Images.findOne({ user_id: update._id });
 		await user.updateOne({
 			$set: {
 				username: update.username,
