@@ -25,7 +25,7 @@ const updateInfo = async (req, res) => {
 		const user = await User.findById(update._id);
 		if (checkImage === null && req.file !== undefined) {
 			console.log("id",typeof update._id, update._id);
-			const randomPath = await randomImageName(update._id);
+			const randomPath = await randomImageName(Number(update._id));
 			console.log("rand", randomPath);
 			const params = {
 				Bucket: bucketName,
