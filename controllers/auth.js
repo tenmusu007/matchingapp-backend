@@ -1,4 +1,5 @@
 const User = require("../models/Users");
+const Images = require("../models/Images");
 const bcrypt = require("bcrypt");
 const { selectedUserData } = require("../helper/selectedUserData");
 const { getImageForHome } = require("../helper/addImageUrl");
@@ -21,6 +22,10 @@ const CreateUser = async (req, res) => {
 			password: hashPsw,
 		});
 		const user = await newUser.save();
+		const newImage = new Images({
+			user_id: user._id.toString(),
+			path: null,
+		});
 		const id = await user.id.toString();
 		res.status(200).json({ ...user._doc });
 	} catch (err) {
@@ -65,7 +70,7 @@ const Logout = async (req, res) => {
 };
 const GetUser = async (req, res) => {
 	try {
-		if (!req.session.id) return res.status(200).json("nocookie")
+		if (!req.session.id) return res.status(200).json("nocookie");
 		const user = await User.findById(req.session.id);
 		const selectedUser = await selectedUserData({ ...user._doc });
 		const addUrl = await getImageForChatList(selectedUser);

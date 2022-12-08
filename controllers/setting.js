@@ -25,13 +25,12 @@ const updateInfo = async (req, res) => {
 		const update = await JSON.parse(req.body.userInfo);
 		const checkImage = await Images.findOne({ user_id: update._id });
 		const user = await User.findById(update._id);
-		if (checkImage === null && req.file !== undefined) {
+		if (checkImage.path === null) {
 			const hashImageName = await bcrypt
 				.hash(update._id, 12)
 				.then((hashedPassword) => {
 					return hashedPassword;
 				});
-			console.log("path", hashImageName);
 			const params = await {
 				Bucket: bucketName,
 				Key: hashImageName,
@@ -40,13 +39,17 @@ const updateInfo = async (req, res) => {
 			};
 			const command = new PutObjectCommand(params);
 			await s3.send(command);
-			const newImage = new Images({
-				user_id: update._id,
-				path: hashImageName,
+			// const newImage = new Images({
+			// 	user_id: update._id,
+			// 	path: hashImageName,
+			// });
+			const newImage = await checkImage.updateOne({
+				$set: {
+					path: hashImageName,
+				},
 			});
-			const image = await newImage.save();
-		}
-		if (checkImage !== null && req.file !== undefined) {
+			await newImage.save();
+		} else {
 			const userImagePath = await Images.findOne({ user_id: update._id });
 			const params = {
 				Bucket: bucketName,
@@ -58,7 +61,6 @@ const updateInfo = async (req, res) => {
 			await s3.send(command);
 		}
 		const userImagePath = await Images.findOne({ user_id: update._id });
-		console.log("path", userImagePath.path);
 		await user.updateOne({
 			$set: {
 				username: update.username,
