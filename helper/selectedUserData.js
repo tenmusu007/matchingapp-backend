@@ -2,7 +2,8 @@ const selectedUserData = async (userData) => {
   if (!Array.isArray(userData)) {
 		delete userData.password;
 		delete userData.createdAt;
-		delete userData.updatedAt;
+    delete userData.updatedAt;
+    delete item.__v;
 		return userData;
   }
   const replacedItem = userData.map((item) => {
