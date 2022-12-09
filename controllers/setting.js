@@ -77,8 +77,8 @@ const updateInfo = async (req, res) => {
 		const updateUser = await User.findById(update._id);
 		const selectedUser = await selectedUserData({ ...updateUser._doc });
 		const addUrl = await getImageForChatList(selectedUser)
-		console.log("add", addUrl);
-		res.status(200).json(selectedUser);
+		// console.log("add", addUrl);
+		res.status(200).json(addUrl);
 	} catch (err) {
 		res.status(500).json(err);
 	}
