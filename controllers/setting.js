@@ -25,41 +25,43 @@ const updateInfo = async (req, res) => {
 		const update = await JSON.parse(req.body.userInfo);
 		const checkImage = await Images.findOne({ user_id: update._id });
 		const user = await User.findById(update._id);
-		if (checkImage.path === null && req.file !== undefined) {
-			const hashImageName = await bcrypt
-				.hash(update._id, 12)
-				.then((hashedPassword) => {
-					return hashedPassword;
+		if (req.file) {
+			if (checkImage.path === "none") {
+				const hashImageName = await bcrypt
+					.hash(update._id, 12)
+					.then((hashedPassword) => {
+						return hashedPassword;
+					});
+				const params = await {
+					Bucket: bucketName,
+					Key: hashImageName,
+					Body: req.file.buffer,
+					ContentType: req.file.mimetype,
+				};
+				const command = new PutObjectCommand(params);
+				await s3.send(command);
+				// const newImage = new Images({
+				// 	user_id: update._id,
+				// 	path: hashImageName,
+				// });
+				const newImage = await checkImage.updateOne({
+					$set: {
+						path: hashImageName,
+					},
 				});
-			const params = await {
-				Bucket: bucketName,
-				Key: hashImageName,
-				Body: req.file.buffer,
-				ContentType: req.file.mimetype,
-			};
-			const command = new PutObjectCommand(params);
-			await s3.send(command);
-			// const newImage = new Images({
-			// 	user_id: update._id,
-			// 	path: hashImageName,
-			// });
-			const newImage = await checkImage.updateOne({
-				$set: {
-					path: hashImageName,
-				},
-			});
-			await newImage.save();
-		} else if (checkImage.path !== null && req.file !== undefined) {
-			const userImagePath = await Images.findOne({ user_id: update._id });
-			const params = {
-				Bucket: bucketName,
-				Key: userImagePath.path,
-				Body: req.file.buffer,
-				ContentType: req.file.mimetype,
-			};
-			const command = new PutObjectCommand(params);
-			await s3.send(command);
-		}
+				await newImage.save();
+			} else if (checkImage.path !== "none") {
+				const userImagePath = await Images.findOne({ user_id: update._id });
+				const params = {
+					Bucket: bucketName,
+					Key: userImagePath.path,
+					Body: req.file.buffer,
+					ContentType: req.file.mimetype,
+				};
+				const command = new PutObjectCommand(params);
+				await s3.send(command);
+			}
+		} 
 		const userImagePath = await Images.findOne({ user_id: update._id });
 		await user.updateOne({
 			$set: {
