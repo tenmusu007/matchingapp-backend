@@ -26,9 +26,7 @@ const updateInfo = async (req, res) => {
 		const checkImage = await Images.findOne({ user_id: update._id });
 		const user = await User.findById(update._id);
 		if (req.file) {
-			console.log("pic");
 			if (checkImage.path === "none") {
-				console.log("first pic");
 				const hashImageName = await bcrypt
 					.hash(update._id, 12)
 					.then((hashedPassword) => {
@@ -37,28 +35,20 @@ const updateInfo = async (req, res) => {
 				const deletedHashImageName = hashImageName
 					.replace(/\/$/, "")
 					.replace(/\./g, "");
-				// console.log("hashImageName", hashImageName);
 				const params = await {
 					Bucket: bucketName,
 					Key: deletedHashImageName,
 					Body: req.file.buffer,
 					ContentType: req.file.mimetype,
 				};
-				console.log("params",params);
 				const command = new PutObjectCommand(params);
 				await s3.send(command);
-				// const newImage = new Images({
-				// 	user_id: update._id,
-				// 	path: hashImageName,
-				// });
-				const newImage = await checkImage.updateOne({
+				await checkImage.updateOne({
 					$set: {
 						path: deletedHashImageName,
 					},
 				});
-				// await newImage.save();
 			} else if (checkImage.path !== "none") {
-				console.log("not first pic");
 				const userImagePath = await Images.findOne({ user_id: update._id });
 				const params = {
 					Bucket: bucketName,
@@ -69,11 +59,9 @@ const updateInfo = async (req, res) => {
 				const command = new PutObjectCommand(params);
 				await s3.send(command);
 			}
-		} else {
-			console.log("no pic");
-		}
+		} 
 		const userImagePath = await Images.findOne({ user_id: update._id });
-		console.log(userImagePath);
+		console.log(userImagePath.replace(/\/$/, "").replace(/\./g, ""));
 		await user.updateOne({
 			$set: {
 				username: update.username,
