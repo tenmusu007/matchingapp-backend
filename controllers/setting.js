@@ -29,17 +29,19 @@ const updateInfo = async (req, res) => {
 			console.log("pic");
 			if (checkImage.path === "none") {
 				console.log("first pic");
-				const hashImageName = await bcrypt
-					.hash(update._id, 12)
-					.then((hashedPassword) => {
-						return hashedPassword;
-					});
+				// const hashImageName = await bcrypt
+				// 	.hash(update._id, 12)
+				// 	.then((hashedPassword) => {
+				// 		return hashedPassword;
+				// 	});
+				// console.log("hashImageName", hashImageName);
 				const params = await {
 					Bucket: bucketName,
-					Key: hashImageName,
+					Key: "1",
 					Body: req.file.buffer,
 					ContentType: req.file.mimetype,
 				};
+				console.log("params",params);
 				const command = new PutObjectCommand(params);
 				await s3.send(command);
 				// const newImage = new Images({
@@ -68,6 +70,7 @@ const updateInfo = async (req, res) => {
 			console.log("no pic");
 		}
 		const userImagePath = await Images.findOne({ user_id: update._id });
+		console.log(userImagePath);
 		await user.updateOne({
 			$set: {
 				username: update.username,
