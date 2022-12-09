@@ -56,7 +56,7 @@ const updateInfo = async (req, res) => {
 						path: deletedHashImageName,
 					},
 				});
-				await newImage.save();
+				// await newImage.save();
 			} else if (checkImage.path !== "none") {
 				console.log("not first pic");
 				const userImagePath = await Images.findOne({ user_id: update._id });
