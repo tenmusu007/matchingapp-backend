@@ -34,10 +34,11 @@ const updateInfo = async (req, res) => {
 					.then((hashedPassword) => {
 						return hashedPassword;
 					});
+				const deletedHashImageName = hashImageName.replace(/\/$/, "");
 				// console.log("hashImageName", hashImageName);
 				const params = await {
 					Bucket: bucketName,
-					Key: hashImageName,
+					Key: deletedHashImageName,
 					Body: req.file.buffer,
 					ContentType: req.file.mimetype,
 				};
@@ -50,7 +51,7 @@ const updateInfo = async (req, res) => {
 				// });
 				const newImage = await checkImage.updateOne({
 					$set: {
-						path: hashImageName,
+						path: deletedHashImageName,
 					},
 				});
 				await newImage.save();
@@ -71,7 +72,7 @@ const updateInfo = async (req, res) => {
 		}
 		const userImagePath = await Images.findOne({ user_id: update._id });
 		console.log(userImagePath);
-		await User.updateOne({
+		await user.updateOne({
 			$set: {
 				username: update.username,
 				course: update.course,
