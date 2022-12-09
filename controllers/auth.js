@@ -22,8 +22,6 @@ const CreateUser = async (req, res) => {
 			password: hashPsw,
 		});
 		const user = await newUser.save();
-		console.log("user",user);
-		console.log("id",user._id.toString());
 		const newImage = new Images({
 			user_id: user._id.toString(),
 			path: "none",
@@ -46,7 +44,7 @@ const LoginUser = async (req, res) => {
 		} else {
 			req.session.id = user._id.toString();
 			// res.cookie("id", req.session.id);
-			return res.status(200).json("login");
+			return res.status(200).json(true);
 		}
 	} catch (err) {
 		res.status(500).json(err);
@@ -66,7 +64,7 @@ const cookieCheck = async (req, res) => {
 const Logout = async (req, res) => {
 	try {
 		req.session = null;
-		res.status(200).json("logout");
+		res.status(200).json(false);
 	} catch (err) {
 		res.status(500), json(err);
 	}
