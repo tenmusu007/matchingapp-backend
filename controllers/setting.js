@@ -29,15 +29,15 @@ const updateInfo = async (req, res) => {
 			console.log("pic");
 			if (checkImage.path === "none") {
 				console.log("first pic");
-				// const hashImageName = await bcrypt
-				// 	.hash(update._id, 12)
-				// 	.then((hashedPassword) => {
-				// 		return hashedPassword;
-				// 	});
+				const hashImageName = await bcrypt
+					.hash(update._id, 12)
+					.then((hashedPassword) => {
+						return hashedPassword;
+					});
 				// console.log("hashImageName", hashImageName);
 				const params = await {
 					Bucket: bucketName,
-					Key: "1",
+					Key: hashImageName,
 					Body: req.file.buffer,
 					ContentType: req.file.mimetype,
 				};
@@ -50,7 +50,7 @@ const updateInfo = async (req, res) => {
 				// });
 				const newImage = await checkImage.updateOne({
 					$set: {
-						path: "1",
+						path: hashImageName,
 					},
 				});
 				await newImage.save();
@@ -71,7 +71,7 @@ const updateInfo = async (req, res) => {
 		}
 		const userImagePath = await Images.findOne({ user_id: update._id });
 		console.log(userImagePath);
-		await user.updateOne({
+		await User.updateOne({
 			$set: {
 				username: update.username,
 				course: update.course,
