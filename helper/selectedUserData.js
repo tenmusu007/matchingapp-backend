@@ -12,6 +12,7 @@ const selectedUserData = async (userData) => {
 		delete item.password;
 		delete item.createdAt;
     delete item.updatedAt;
+    delete item.__v
     return item
   });
   return selectedUser

@@ -2,7 +2,7 @@ const User = require("../models/Users");
 const Images = require("../models/Images");
 const bcrypt = require("bcrypt");
 const { selectedUserData } = require("../helper/selectedUserData");
-const { getImageForHome } = require("../helper/addImageUrl");
+// const { getImageForHome } = require("../helper/addImageUrl");
 const { getImageForChatList } = require("../helper/addImageUrl");
 
 const CreateUser = async (req, res) => {
