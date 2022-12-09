@@ -5,13 +5,11 @@ const getImageForChatList = async (userData) => {
 	const image = await Images.findOne({
 		user_id: userData._id.toString(),
 	});
-	if (image.path === "none") return userData;
-	if (image) {
+	if (image.path !== "none") {
 		const url = await getImageFromS3(image.path);
 		userData.image = url;
 		return userData;
 	} else {
-		userData.image = "";
 		return userData;
 	}
 };
@@ -20,16 +18,10 @@ const getImageForHome = async (userData) => {
 		const image = await Images.findOne({
 			user_id: item._id.toString(),
 		});
-		if (image.path === "none") return userData;
-
-		if (image) {
+		if (image.path !== "none") {
 			const url = await getImageFromS3(image.path);
 			item.image = url;
-			// return userData;
-		} else {
-			item.image = "nothing";
-			// return userData;
-		}
+		} 
 	}
 	// return getImageForUserList;
 	return userData;
