@@ -5,6 +5,7 @@ const Likes = require("../models/Likes");
 const { delAlredyLiked } = require("../helper/delAlreadyLiked");
 const { selectedUserData } = require("../helper/selectedUserData");
 const { getImageForHome } = require("../helper/addImageUrl");
+const { shuffle } = require("../helper/shuffle");
 
 const sendLike = async (req, res) => {
 	try {
@@ -81,14 +82,15 @@ const getUsers = async (req, res) => {
 				const userList = delAlredyLiked(likedList, delCurrentUser);
 				const selectedUser = await selectedUserData(userList);
 				const addUrl = await getImageForHome(selectedUser);
-				return res.status(200).json(addUrl);
+				const shuffledList = shuffle(addUrl);
+				return res.status(200).json(shuffledList);
 			}
 		}
 		const whoLike = await List.filter((item) => {
 			for (const element of currentUser.sexual_orientation) {
 				if (item.gender === element.id) {
 					for (const userListGender of item.sexual_orientation) {
-						if(userListGender.id === 4)return item
+						if (userListGender.id === 4) return item;
 						if (userListGender.id === currentUser.gender) {
 							return item;
 						}
@@ -107,7 +109,7 @@ const getUsers = async (req, res) => {
 		if (currentUser.sexual_orientation.length > 1) {
 			const filterdLike = await userList.filter((item) => {
 				for (const element of item.sexual_orientation) {
-					if(element.id === 4)return item
+					if (element.id === 4) return item;
 					if (element.id === currentUser.gender) {
 						return item;
 					}
@@ -115,17 +117,13 @@ const getUsers = async (req, res) => {
 			});
 			const selectedUser = await selectedUserData(filterdLike);
 			const addUrl = await getImageForHome(selectedUser);
-			res.status(200).json(addUrl);
+			const shuffledList = shuffle(addUrl);
+			res.status(200).json(shuffledList);
 		} else {
-			// const likedList = await Likes.find({ from: req.session.id });
-			// const userList = await delAlredyLiked(likedList, whoLike);
-			// console.log("userlist", userList);
-			// const delCurrentUser = userList.filter(
-			// 	(item) => item._id.toString() !== req.session.id
-			// );
 			const selectedUser = await selectedUserData(userList);
 			const addUrl = await getImageForHome(selectedUser);
-			res.status(200).json(addUrl);
+			const shuffledList = shuffle(addUrl);
+			res.status(200).json(shuffledList);
 		}
 	} catch (err) {
 		res.status(500).json(err);
