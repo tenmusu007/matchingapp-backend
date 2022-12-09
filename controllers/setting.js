@@ -26,6 +26,7 @@ const updateInfo = async (req, res) => {
 		const checkImage = await Images.findOne({ user_id: update._id });
 		const user = await User.findById(update._id);
 		if (req.file) {
+			console.log("pic");
 			if (checkImage.path === "none") {
 				const hashImageName = await bcrypt
 					.hash(update._id, 12)
@@ -61,7 +62,9 @@ const updateInfo = async (req, res) => {
 				const command = new PutObjectCommand(params);
 				await s3.send(command);
 			}
-		} 
+		} else {
+			console.log("no pic");
+		}
 		const userImagePath = await Images.findOne({ user_id: update._id });
 		await user.updateOne({
 			$set: {
