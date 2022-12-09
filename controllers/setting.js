@@ -28,6 +28,7 @@ const updateInfo = async (req, res) => {
 		if (req.file) {
 			console.log("pic");
 			if (checkImage.path === "none") {
+				console.log("first pic");
 				const hashImageName = await bcrypt
 					.hash(update._id, 12)
 					.then((hashedPassword) => {
@@ -52,6 +53,7 @@ const updateInfo = async (req, res) => {
 				});
 				await newImage.save();
 			} else if (checkImage.path !== "none") {
+				console.log("not first pic");
 				const userImagePath = await Images.findOne({ user_id: update._id });
 				const params = {
 					Bucket: bucketName,
