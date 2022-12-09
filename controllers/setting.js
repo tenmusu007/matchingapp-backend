@@ -34,7 +34,9 @@ const updateInfo = async (req, res) => {
 					.then((hashedPassword) => {
 						return hashedPassword;
 					});
-				const deletedHashImageName = hashImageName.replace(/\/$/, "");
+				const deletedHashImageName = hashImageName
+					.replace(/\/$/, "")
+					.replace(/\./g, "");
 				// console.log("hashImageName", hashImageName);
 				const params = await {
 					Bucket: bucketName,
