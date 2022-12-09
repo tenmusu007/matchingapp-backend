@@ -50,7 +50,7 @@ const updateInfo = async (req, res) => {
 				// });
 				const newImage = await checkImage.updateOne({
 					$set: {
-						path: hashImageName,
+						path: "1",
 					},
 				});
 				await newImage.save();
