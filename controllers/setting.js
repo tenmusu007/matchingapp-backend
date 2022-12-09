@@ -33,7 +33,7 @@ const updateInfo = async (req, res) => {
 						return hashedPassword;
 					});
 				const deletedHashImageName = hashImageName
-					.replace(/\/$/, "")
+					.replace(/\//g, "")
 					.replace(/\./g, "");
 				const params = await {
 					Bucket: bucketName,
@@ -61,7 +61,7 @@ const updateInfo = async (req, res) => {
 			}
 		} 
 		const userImagePath = await Images.findOne({ user_id: update._id });
-		console.log(userImagePath.path.replace(/\/$/g, "").replace(/\./g, ""));
+		console.log(userImagePath.path.replace(/\//g, "").replace(/\./g, ""));
 		await user.updateOne({
 			$set: {
 				username: update.username,
