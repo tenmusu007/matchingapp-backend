@@ -3,7 +3,7 @@ const selectedUserData = async (userData) => {
 		delete userData.password;
 		delete userData.createdAt;
     delete userData.updatedAt;
-    delete item.__v;
+    delete userData.__v;
 		return userData;
   }
   const replacedItem = userData.map((item) => {
