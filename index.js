@@ -8,7 +8,7 @@ const http = require("http");
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const settingRoute = require("./routes/setting");
-const interestsRoute = require("./routes/interests");
+const formdataRoute = require("./routes/formdata");
 const likesRoute = require("./routes/likes");
 const chatRoute = require("./routes/chat");
 require("dotenv").config();
@@ -37,7 +37,7 @@ app.use(
 );
 app.use("/auth", authRoute);
 app.use("/setting", settingRoute);
-app.use("/interest", interestsRoute);
+app.use("/getformdata", formdataRoute);
 app.use("/like", likesRoute);
 app.use("/chat", chatRoute);
 const server = http.createServer(app);

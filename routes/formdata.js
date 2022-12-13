@@ -1,0 +1,10 @@
+const router = require("express").Router();
+// const { Getgenders } = require("../controllers/genders");
+// const { Getpreferences } = require("../controllers/preferences");
+// const { Getcourses } = require("../controllers/courses");
+const { formData } = require("../controllers/formdata");
+// router.get("/courses", Getcourses);
+// router.get("/preferences", Getpreferences);
+// router.get("/gender", Getgenders);
+router.post("/formdata", formData);
+module.exports = router;
