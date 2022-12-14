@@ -8,7 +8,7 @@ const Getpreferences = (req, res) => {
 				if (err) {
 					res.status(500).json(err);
 				} else {
-					// console.log(docs);
+					console.log(docs);
 					res.status(200).json(docs);
 					db.close();
 				}
